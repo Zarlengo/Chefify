@@ -16,3 +16,4 @@ Project Description: Mobile first app to create meals for a user and include sho
   API's
   * https://spoonacular.com/food-api
   * https://rapidapi.com/spoonacular/api/recipe-food-nutrition
+  * https://developers.shop.com/externalapis/apn-services/
