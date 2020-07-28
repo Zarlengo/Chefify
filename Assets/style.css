@@ -1,0 +1,20 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.settings {
+    display: flex; 
+}
+
+.intolerances {
+    margin: 5px;
+}
+
+.restrictions {
+    margin: 5px;
+}
+
+.units {
+    margin: 5px;
+}
