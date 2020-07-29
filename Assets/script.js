@@ -134,11 +134,3 @@ function trimHTMLString(string_input) {
     // Correct HTML syntax, return trimmed string
     return addDotDotDot(trimmed_string);
 }
-
-
-
-let container = document.createElement("div");
-container.setAttribute("id", "recipe_container");
-document.querySelector("body").append(container);
-
-GetRandomRecipes(makeRecipeCard);
