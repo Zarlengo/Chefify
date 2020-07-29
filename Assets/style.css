@@ -1,0 +1,47 @@
+/***** Site wide schemes *****/
+:root {
+    --main-background-color: #fff;
+    --main-font-color: #000;
+
+    --dark-background-color: #3b4954;
+    --dark-background-font-color: #f9fbfd;
+
+    --accent-color-primary: #e6e6fa;
+    --accent-color-secondary: #e0ffff;
+    --accent-font-color: #000;
+}
+
+/* Styles for recipe cards */
+.card {
+    border: 1px #808080 solid;
+    background-color: var(--accent-color-primary);
+    color: var(--accent-font-color);
+    border-radius: 30px;
+    width: 600px;
+    min-height: 250px;
+}
+
+.recipe_image {
+    width: 250px;
+    float: left;
+    padding: 20px;
+}
+
+.card_head {
+    background-color: var(--accent-color-secondary);
+    top: 0;
+    width: 100%;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+.card_title {
+    padding: 10px 0 10px 30px;
+    margin: 0;
+}
+
+
+.ready_time , .recipe_summary{
+    padding-left: 20px;
+    padding-right: 20px;
+}

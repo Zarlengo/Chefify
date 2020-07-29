@@ -56,20 +56,15 @@ function URLConstruct(base_URL, authorization, additions_object) {
     return URL;
 }
 
-function SpoonImageURL(image, size, image_category) {
+function SpoonImageURL(image_id, image_type, size, image_category) {
     let ingredient_sizes = ["100x100", "250x250", "500x500"];
     let recipe_sizes = ["90x90", "240x150", "312x150", "312x231", "480x360", "556x370", "636x393"];
     let product_sizes = ["90x90", "312x231", "636x393"];
 
     // Function to modify the image name to include the image size
     function GetImageName() {
-        // Pulls just the id with image type (apple-tart-301595.jpg => 301595.jpeg)
-        let image_name = image.split("-").pop();
-
-        // Gives [0] recipe id (301595) and [1] image type (jpeg)
-        let image_content = image_name.split(".");
-
-        return `${image_content[0]}-${size}.${image_content[1]}`;
+        // Formats the image for the API call
+        return `${image_id}-${size}.${image_type}`;
     }
 
     switch (image_category) {
