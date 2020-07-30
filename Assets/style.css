@@ -13,7 +13,7 @@
     --accent-font-color: #000;
 }
 
-p {
+.settings-card-title {
     font-size: 18px;
     margin-bottom: 6px;
     border-bottom: 1px black solid;
@@ -32,7 +32,6 @@ p {
     overflow: auto; 
     background-color: gray; 
 }
-
 
 .settings-header {
     display: flex;
