@@ -1,20 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="./Assets/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="./Assets/style.css" />
     
 </head>
 <body>
-    <script src="./Assets/api.js"></script>
-    <script src="./Assets/script.js"></script>
+
+
+  <header>
+    <nav class="navbar">
+      <div class="nav-left-content navbar-brand">Chefify</div>
+      <div class="nav-right-content">
+        <div class="nav-search">
+          <input id="searchText" name="searchText" type="text" placeholder="Quick search" class="recipe-search">
+          <i class="fas fa-search search-icon"></i>
+        </div>
+        <i class="fas fa-heart nav-favorite"></i>
+        <div class="dropdown"><i class="fas fa-bars"></i>
+          <div class="dropdown-content">
+            <a class="dropdown-item" href="#">Recipe Search</a>
+            <a class="dropdown-item" href="#">Shopping List</a>
+            <a class="dropdown-item" href="#">Favorites</a>
+            <a class="dropdown-item" href="#">Meal History</a>
+            <a class="dropdown-item" href="#">Settings</a>
+            <a class="dropdown-item" href="#">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+
+  <section id="recipe_container">
+  </section>
+
+
+
+
+  <script src="./Assets/api.js"></script>
+  <script src="./Assets/script.js"></script>
 </body>
 </html>

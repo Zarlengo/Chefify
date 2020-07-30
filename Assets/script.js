@@ -1,5 +1,8 @@
+let all_recipe_object = [];
+
 // Function to dynamically create a recipe card
 function makeRecipeCard(array_of_recipe_objects) {
+    addToStorage(array_of_recipe_objects);
 
     let recipe_container = document.querySelector("#recipe_container");
 
@@ -11,6 +14,7 @@ function makeRecipeCard(array_of_recipe_objects) {
         let recipe_div = document.createElement("div");
         recipe_div.setAttribute("data-id", recipe.id);
         recipe_div.setAttribute("class", "card");
+        recipe_div.addEventListener("click", openDetailedRecipe, false);
 
         // Creates title bar for the card
         let title_head = document.createElement("div");
@@ -22,11 +26,13 @@ function makeRecipeCard(array_of_recipe_objects) {
         recipe_div.append(title_head);
 
         // Adds the recipe image
-        let image = document.createElement("img");        
-        image.setAttribute("src", SpoonImageURL(recipe.id, recipe.imageType, "636x393", "recipeImages"));
-        image.setAttribute("class", "recipe_image");
-        image.setAttribute("alt", recipe.title);
-        recipe_div.append(image);
+        if (typeof(recipe.imageType) != "undefined") {
+            let image = document.createElement("img");
+            image.setAttribute("src", SpoonImageURL(recipe.id, recipe.imageType, "636x393", "recipeImages"));
+            image.setAttribute("class", "recipe_image");
+            image.setAttribute("alt", recipe.title);
+            recipe_div.append(image);
+        }
 
         // Adds the score as a X of 5 star rating
         recipe_div.append(makeStarDiv(recipe.spoonacularScore));
@@ -47,8 +53,9 @@ function makeRecipeCard(array_of_recipe_objects) {
         // Adds the card to the page
         recipe_container.append(recipe_div);
     }
-
 }
+
+
 
 // Function to get stars in a "p" element
 function makeStarDiv(number) {
@@ -136,9 +143,52 @@ function trimHTMLString(string_input) {
 }
 
 
+function loadFrontPage() {
 
-let container = document.createElement("div");
-container.setAttribute("id", "recipe_container");
-document.querySelector("body").append(container);
+    // Test mode setup to minimize API calls while in development, loads once and then pulls from local storage on subsequent refreshes
+    let current_storage = JSON.parse(localStorage.getItem("recipe_list"));
+    if (current_storage == null) {
+        GetRandomRecipes(makeRecipeCard, {number: 50});
+    }
 
-GetRandomRecipes(makeRecipeCard);
+
+    let recipe_list = JSON.parse(localStorage.getItem("recipe_list"));
+    makeRecipeCard(recipe_list);
+
+
+}
+
+loadFrontPage();
+
+
+function openDetailedRecipe (event) {
+    let click_id = this.getAttribute("data-id");
+    console.log(all_recipe_object.filter(recipe => recipe.id == click_id));
+
+}
+
+function addToStorage (array_of_objects) {
+
+    let current_storage = JSON.parse(localStorage.getItem("recipe_list"));
+    
+    if (current_storage != null) {
+        // If there is an existing entry, adds to this object
+        for (let index = 0; index < array_of_objects.length; index++) {
+            // Checks if the recipe ID is in local storage
+            if (current_storage.filter(recipe => recipe.id == array_of_objects[index].id).length > 0) {
+                // Do nothing
+            } else {
+                current_storage.push(array_of_objects[index]);
+            }
+        }
+        uploadOBJ = current_storage;
+    } else {
+        // If this is the first entry
+        uploadOBJ = array_of_objects;
+    }
+
+    // Converts the object to a string and uploads to local storage
+    var json_obj = JSON.stringify(uploadOBJ);
+    localStorage.setItem("recipe_list", json_obj);
+    console.log(uploadOBJ);
+}
