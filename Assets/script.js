@@ -142,7 +142,6 @@ function trimHTMLString(string_input) {
     return addDotDotDot(trimmed_string);
 }
 
-
 function loadFrontPage() {
 
     // Test mode setup to minimize API calls while in development, loads once and then pulls from local storage on subsequent refreshes
