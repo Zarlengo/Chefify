@@ -3,18 +3,117 @@
     margin: 0px;
 }
 
-.settings {
-    display: flex; 
+:root {
+    --main-background-color: #fff;
+    --main-font-color: #000;
+    --dark-background-color: #3B4954;
+    --dark-background-font-color: #F9FBFD;
+    --accent-color-primary: #E6E6FA;
+    --accent-color-secondary: #E0FFFF;
+    --accent-font-color: #000;
 }
 
-.intolerances {
-    margin: 5px;
+p {
+    font-size: 18px;
+    margin-bottom: 6px;
+    border-bottom: 1px black solid;
 }
 
-.restrictions {
-    margin: 5px;
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    min-width: 400px;
+    max-width: 988px;
+    overflow: auto; 
+    background-color: gray; 
 }
 
+
+.settings-header {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    background-color: black;
+    color: white;
+}
+
+.settings-body {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    justify-content: center;
+}
+
+.close-settings {
+    line-height: 50px;
+    color: white;
+    position: absolute;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.settings-save-button {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    background-color: white;
+    height: 34px;
+    width: 125px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.header-text {
+    position: absolute;
+    left: 15px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+}
+
+.settings-card {
+    border: 1px #808080 solid;
+    background-color: var(--accent-color-primary);
+    color: var(--accent-font-color);
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.settings-footer {
+    bottom: 0;
+    background-color: blue;
+    height: 50px;
+    width: 100%;
+    color: white;
+}
+
+.intolerances,
+.restrictions,
 .units {
-    margin: 5px;
+    padding: 5px;
+}
+
+.restriction,
+.intolerance,
+.unit {
+    padding: 3px;
+    padding-left: 0px;
 }
