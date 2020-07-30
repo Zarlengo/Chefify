@@ -19,7 +19,7 @@ p {
     border-bottom: 1px black solid;
 }
 
-.flex-container {
+#settings-modal {
     display: flex;
     flex-wrap: wrap;
     position: absolute;
