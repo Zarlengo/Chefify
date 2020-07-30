@@ -115,4 +115,168 @@
 .unit {
     padding: 3px;
     padding-left: 0px;
+
+/* Styles for recipe cards */
+.card {
+    border: 1px #808080 solid;
+    background-color: var(--accent-color-primary);
+    color: var(--accent-font-color);
+    border-radius: 30px;
+    width: 600px;
+    min-height: 250px;
+    margin: 10px 10px;
+    cursor: pointer;
+}
+
+.recipe_image {
+    width: 250px;
+    padding: 20px;
+}
+
+.card_head {
+    background-color: var(--accent-color-secondary);
+    top: 0;
+    width: 100%;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+.card_title {
+    padding: 10px 0 10px 30px;
+    margin: 0;
+}
+
+
+.score, .ready_time , .recipe_summary{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Styles for the main page */
+body {
+    background-color: var(--main-background-color);
+    color: var(--main-font-color);
+    min-width: 320px;
+}
+
+#recipe_container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+
+/* Styles for the navbar */
+.navbar {
+    overflow: hidden;
+    background-color: var(--dark-background-color);
+    color: var(--dark-background-font-color);
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar a {
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Left side of nav bar */
+.navbar-brand {
+    padding-left: 30px;
+    font-weight: bold;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* Right side of nav bar */
+.nav-right-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding-right: 25px;
+}
+
+/* Search box */
+.nav-search {
+    margin: 0 5px;
+    border: 1px solid white;
+    display: none;
+}
+
+.recipe-search {
+    font-size: 20px;
+}
+
+.search-icon {
+    padding: 0 10px 0 5px;
+    cursor: pointer;
+}
+
+/* Favorite icon */
+.nav-favorite {
+    font-size: 30px;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+/* Dropdown menu */
+.dropdown {
+    float: left;
+    overflow: hidden;
+    font-size: 30px;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--main-background-color);
+    color: var(--main-font-color);
+    z-index: 1000;
+    right: 0;
+}
+
+.dropdown-content a {
+    float: none;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-item {
+    float: left;
+    font-size: 16px;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--accent-color-primary);
+    color: var(--accent-font-color);
+}
+
+/* Formatting changes for larger screens / computers */
+@media (min-width: 550px) {
+    .nav-search {
+        display: block;
+    }
+
+    .recipe_image {
+        float: left;
+    }
 }
