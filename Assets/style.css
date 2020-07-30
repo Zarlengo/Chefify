@@ -20,7 +20,7 @@
 }
 
 #settings-modal {
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     position: absolute;
     margin-left: auto;
