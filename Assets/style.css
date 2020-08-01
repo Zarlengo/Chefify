@@ -195,9 +195,14 @@
     width: 100%;
 }
 
+.btn-shop {
+    width: 140px;
+    font-size: 14px;
+}
+
 .btn-unit {
-    width: 85px;
-    font-size: inherit;
+    width: 70px;
+    font-size: 14px;
 }
 
 .ingredient_list {
@@ -285,7 +290,13 @@
     color: #FFF;
 }
 
+/* Style for the shopping list */
 
+
+.btn-remove {
+    font-size: inherit;
+    padding: 0 20px;
+}
 
 
 
@@ -450,7 +461,6 @@ body {
         padding: 20px;
     }
 
-
     .score, .ready_time {
         padding-bottom: 0;
         padding-top: 20px;
@@ -458,5 +468,17 @@ body {
 
     .recipe_summary{
         padding-top: 20px;
+    }
+
+
+    .btn-shop {
+        margin-right: 30px;
+        width: 170px;
+        font-size: inherit;
+    }
+
+    .btn-unit {
+        width: 85px;
+        font-size: inherit;
     }
 }

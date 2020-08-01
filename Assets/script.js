@@ -94,7 +94,154 @@ function makeRecipeCard(array_of_recipe_objects) {
     }
 }
 
+// Function to get shopping list
+function getShoppingList() {
+    // Reset page
+    scroll(0,0);
+    recipe_container.innerHTML = "";
+    document.querySelector(".back-btn").style.display = "inline-block";
 
+
+
+    // Gets the current favorite object
+    let current_storage = JSON.parse(localStorage.getItem("shopping_list"));
+    
+    if (current_storage == null || current_storage.length == 0) {
+        // Shows an overlay to the user that there is nothing in the shopping list, automatically disappears after 1.5 seconds
+        document.querySelector("#modal-message").textContent = "No items in the shopping list";
+        document.querySelector(".modal-container").style.display = "flex";
+        setTimeout(function() {document.querySelector(".modal-container").style.display = "none";}, 1500);
+
+        // Loads the main page as no items are in the shopping list
+        loadFrontPage();
+        return;
+    }
+
+
+    // Creates shopping  section
+    let ingredient_section = document.createElement("section");
+    ingredient_section.setAttribute("class", "shopping-list");
+
+    // Creates header for the ingredient
+    section_head = document.createElement("div");
+    section_head.setAttribute("class", "section-head");
+    title = document.createElement("h2");
+    title.setAttribute("class", "section-title");
+    title.textContent = "Shopping List:";
+    section_head.append(title);
+
+    // Adds a container for the remove item button
+    let button_div = document.createElement("div");
+    button_div.setAttribute("class", "button-div");
+
+    // Adds a remove items button
+    let button_shop = document.createElement("button");
+    button_shop.setAttribute("id", "btn-remove-shop");
+    button_shop.setAttribute("class", "btn-remove");
+    button_shop.textContent = "Remove from shopping list";
+    button_shop.addEventListener("click", removeFromShop, false);
+    button_div.append(button_shop);
+
+    section_head.append(button_div);
+    ingredient_section.append(section_head);
+
+
+    // Adds the ingredients
+    current_storage.sort((a, b) => (a.aisle > b.aisle) ? 1 : -1);
+    let current_aisle = "";
+    let row_obj;
+    for (let index = 0; index < current_storage.length; index++) {
+        current_ingredient = current_storage[index];
+
+        let new_li = document.createElement("li");
+        new_li.setAttribute("class", "ingredient_item");
+        new_li.setAttribute("data-id", current_ingredient.id);
+
+        let input = document.createElement("input");
+        input.setAttribute("class", "ingredient-input");
+        input.setAttribute("type", "checkbox");
+        input.setAttribute("value", "");
+        input.setAttribute("id", `ingredient-${current_ingredient.id}`);
+        new_li.append(input);
+
+        let measure_text = document.createElement("label");
+        measure_text.setAttribute("class", "ingredient-label")
+        measure_text.setAttribute("for", `ingredient-${current_ingredient.id}`);
+        measure_text.textContent = ` ${current_ingredient.amount} ${current_ingredient.measure} ${current_ingredient.name}`;
+        new_li.append(measure_text);
+
+        if (current_aisle == current_ingredient.aisle) {
+            // Add to current row
+            row_obj.append(new_li);
+        } else {
+            // Make a new row
+            if (current_aisle != "") {
+                ingredient_section.append(row_obj);
+            }
+            current_aisle = current_ingredient.aisle;
+            if (current_aisle == null) {
+                current_aisle = "No aisle cataloged";
+            }
+            row_obj = document.createElement("ul");
+            row_obj.setAttribute("class", "aisle");
+            row_title = document.createElement("h3");
+            row_title.setAttribute("class", "aisle-title");
+            row_title.textContent = current_aisle;
+            row_obj.append(row_title);
+            row_obj.append(new_li);
+        }
+    }
+    ingredient_section.append(row_obj);
+    recipe_container.append(ingredient_section);
+}
+
+// Function to remove items from the shopping list
+function removeFromShop() {
+    let any_checked = false;
+    let all_checkboxes = document.querySelectorAll(".ingredient-input");
+    for (box = 0; box < all_checkboxes.length; box++) {
+        if (all_checkboxes[box].checked) {
+            any_checked = true;
+        }
+    }
+
+    // If any or all are checked
+    if (any_checked) {
+
+        // Gets the current favorite object
+        let current_storage = JSON.parse(localStorage.getItem("shopping_list"));
+        if (current_storage != null) {
+            // If there is an existing entry
+            for (storage_index = current_storage.length - 1; storage_index >= 0; storage_index--) {
+                console.log(`ingredient-${current_storage[storage_index].id}`);
+                if (document.querySelector(`#ingredient-${current_storage[storage_index].id}`).checked) {
+                    current_storage.splice(storage_index, 1);
+                }
+
+            }
+            // Converts the remaining object to a string and uploads to local storage
+            var json_obj = JSON.stringify(current_storage);
+            localStorage.setItem("shopping_list", json_obj);
+        }
+
+        // Reloads the shopping list with the remaining items
+        getShoppingList();
+
+    // Empty entire shopping list if nothing is checked
+    } else {
+        localStorage.removeItem("shopping_list");
+
+        // Shows an overlay to the user that the shopping list is now empty, automatically disappears after 1.5 seconds
+        document.querySelector("#modal-message").textContent = "All items deleted";
+        document.querySelector(".modal-container").style.display = "flex";
+        setTimeout(function() {document.querySelector(".modal-container").style.display = "none";}, 1500);
+
+        // Loads the main page as no items remain in the shopping list
+        loadFrontPage();
+    }
+    
+    
+}
 
 // Function to get stars in a "p" element
 function makeStarDiv(number, data_id) {
@@ -295,6 +442,7 @@ function loadFrontPage() {
     // Adds event listeners to drop-down menu
     document.querySelector("#favorites-btn").addEventListener("click", favoritePage, false);
     document.querySelector("#favorites-icon").addEventListener("click", favoritePage, false);
+    document.querySelector("#shopping-btn").addEventListener("click", getShoppingList, false);
 
 
 
@@ -351,6 +499,7 @@ function openDetailedRecipe () {
     let recipe_objs = all_recipe_object.filter(recipe => recipe.id == click_id);
     let recipe = recipe_objs[0];
 
+    console.log(recipe);
     // Creates summary section
     let summary_section = document.createElement("section");
     summary_section.setAttribute("class", "recipe-summary");
@@ -407,9 +556,17 @@ function openDetailedRecipe () {
     title.textContent = "Ingredients:";
     section_head.append(title);
 
-    // Adds a container for hte metric / US unit buttons
+    // Adds a container for the shopping list, metric & US unit buttons
     let button_div = document.createElement("div");
     button_div.setAttribute("class", "button-div");
+
+    // Adds a shopping list button
+    let button_shop = document.createElement("button");
+    button_shop.setAttribute("id", "btn-add-shop");
+    button_shop.setAttribute("class", "btn-shop");
+    button_shop.textContent = "Add to shopping list";
+    button_shop.addEventListener("click", addToShop, false);
+    button_div.append(button_shop);
 
     // Adds a US unit button
     let button_US = document.createElement("button");
@@ -447,20 +604,20 @@ function openDetailedRecipe () {
         input.setAttribute("class", "ingredient-input");
         input.setAttribute("type", "checkbox");
         input.setAttribute("value", "");
-        input.setAttribute("id", current_ingredient.id);
+        input.setAttribute("id", `ingredient-${current_ingredient.id}`);
         new_li.append(input);
 
         let US = current_ingredient.measures.us;
         let US_text = document.createElement("label");
         US_text.setAttribute("class", "US ingredient-label")
-        US_text.setAttribute("for", current_ingredient.id);
+        US_text.setAttribute("for", `ingredient-${current_ingredient.id}`);
         US_text.textContent = ` ${US.amount} ${US.unitShort} ${current_ingredient.name}`;
         new_li.append(US_text);
 
         let metric = current_ingredient.measures.metric;
         let metric_text = document.createElement("label");
         metric_text.setAttribute("class", "metric ingredient-label")
-        metric_text.setAttribute("for", current_ingredient.id);
+        metric_text.setAttribute("for", `ingredient-${current_ingredient.id}`);
         metric_text.textContent = ` ${metric.amount} ${metric.unitShort} ${current_ingredient.name}`;
         new_li.append(metric_text);
 
@@ -627,6 +784,95 @@ function openDetailedRecipe () {
     recipe_container.append(instruction_section);
 }
 
+// Function to add ingredients to shopping list
+function addToShop () {
+    // Gets the recipe id from the page
+    let recipe_id = document.querySelector(".card-favorite").getAttribute("data-id");
+
+    // Determines which unit is currently being displayed
+    let unit_choice = "";
+    if (document.querySelector("#btn-US").classList.contains("selected")) {
+        unit_choice = "us";
+    } else {
+        unit_choice = "metric";
+    }
+
+    let any_checked = false;
+    let all_checkboxes = document.querySelectorAll(".ingredient-input");
+    for (box = 0; box < all_checkboxes.length; box++) {
+        if (all_checkboxes[box].checked) {
+            any_checked = true;
+        }
+    }
+
+    let shopping_list = [];
+    if (all_recipe_object.filter(recipe => recipe.id == recipe_id).length > 0) {
+        let ingredients = all_recipe_object.filter(recipe => recipe.id == recipe_id)[0].extendedIngredients;
+        for (ingredient_index = 0; ingredient_index < ingredients.length; ingredient_index++) {
+            let ingredient = ingredients[ingredient_index];
+            if (any_checked) {
+                if (document.querySelector(`#ingredient-${ingredient.id}`).checked) {
+                    let list_object = {
+                        id: ingredient.id,
+                        aisle: ingredient.aisle,
+                        amount: ingredient.measures[unit_choice].amount,
+                        measure: ingredient.measures[unit_choice].unitLong,
+                        image: ingredient.image,
+                        name: ingredient.name
+                    }
+                    shopping_list.push(list_object);
+                }
+            } else {
+
+                let list_object = {
+                    id: ingredient.id,
+                    aisle: ingredient.aisle,
+                    amount: ingredient.measures[unit_choice].amount,
+                    measure: ingredient.measures[unit_choice].unitLong,
+                    image: ingredient.image,
+                    name: ingredient.name
+                }
+                shopping_list.push(list_object);
+            }
+        }
+
+        // Gets the current shopping list from storage
+        let current_storage = JSON.parse(localStorage.getItem("shopping_list"));
+        
+        if (current_storage != null) {
+            // If there is an existing entry, adds to this object
+            for (let ingredient_index = 0; ingredient_index < shopping_list.length; ingredient_index++) {
+                // Checks if the grocery item is in local storage
+                if (current_storage.filter(item => item.id == shopping_list[ingredient_index].id).length > 0) {
+                    let missing_item = true;
+                    for (list_index = 0; list_index < current_storage.length; list_index++) {
+                        if (current_storage[list_index].id == shopping_list[ingredient_index].id) {
+                            if (current_storage[list_index].measure == shopping_list[ingredient_index].measure) {
+                                current_storage[list_index].amount = current_storage[list_index].amount + shopping_list[ingredient_index].amount;
+                                missing_item = false;
+                            }
+                        }
+                    }
+                    if (missing_item) {
+                        current_storage.push(shopping_list[ingredient_index]);
+                    }
+                } else {
+                    current_storage.push(shopping_list[ingredient_index]);
+                }
+            }
+            uploadOBJ = current_storage;
+        } else {
+            // If this is the first entry
+            uploadOBJ = shopping_list;
+        }
+
+        // Converts the object to a string and uploads to local storage
+        var json_obj = JSON.stringify(uploadOBJ);
+        localStorage.setItem("shopping_list", json_obj);
+
+    }
+}
+
 // Function to handle the unit button press
 function unitToggle () {
     // Remove buttons focus
@@ -723,6 +969,9 @@ function addToStorage (array_of_objects) {
 document.querySelector(".navbar-brand").addEventListener("click", loadFrontPage, false);
 
 window.addEventListener("scroll", function() {
+    if (document.querySelector(".back-btn").style.display != "none") {
+        return;
+    }
     if (window.pageYOffset + window.innerHeight >= document.body.offsetHeight) {
       // Shows an overlay to the user that there an no favorites, automatically disappears after 1.5 seconds
         document.querySelector("#modal-message").textContent = "Loading more recipes";
