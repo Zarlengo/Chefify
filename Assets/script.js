@@ -1,5 +1,6 @@
 let all_recipe_object = [];
 let recipe_container = document.querySelector("#recipe_container");
+let JSON_in_progress = false;
 let shopping_aisles = [ "Baking",
                         "Health Foods",
                         "Spices and Seasonings",
@@ -34,9 +35,7 @@ let shopping_aisles = [ "Baking",
 
 // Function to dynamically create a recipe card
 function makeRecipeCard(array_of_recipe_objects) {
-    // Reset page
-    scroll(0,0);
-    recipe_container.innerHTML = "";
+    JSON_in_progress = false;
     
     // Stores any new recipes to local storage (speed up loading old recipes)
     addToStorage(array_of_recipe_objects);
@@ -288,6 +287,8 @@ function localFavorite(recipe_id, method) {
 
 function loadFrontPage() {
     // Reset page
+    scroll(0,0);
+    recipe_container.innerHTML = "";
     document.querySelector(".back-btn").style.display = "none";
 
 
@@ -300,7 +301,8 @@ function loadFrontPage() {
     // Test mode setup to minimize API calls while in development, loads once and then pulls from local storage on subsequent refreshes
     let current_storage = JSON.parse(localStorage.getItem("recipe_list"));
     if (current_storage == null) {
-        GetRandomRecipes(makeRecipeCard, {number: 50});
+        JSON_in_progress = true;
+        GetRandomRecipes(makeRecipeCard, {number: 100});
     } else {
         let recipe_list = JSON.parse(localStorage.getItem("recipe_list"));
         makeRecipeCard(recipe_list);
@@ -312,6 +314,8 @@ loadFrontPage();
 
 function favoritePage() {
     // Reset page
+    scroll(0,0);
+    recipe_container.innerHTML = "";
     document.querySelector(".back-btn").style.display = "inline-block";
 
     let favorite_list = JSON.parse(localStorage.getItem("favorite_list"));
@@ -328,6 +332,7 @@ function favoritePage() {
             if (current_storage.filter(recipe => recipe.id == favorite_id).length > 0) {
                 favorite_object.push(current_storage.filter(recipe => recipe.id == favorite_id)[0]);
             } else {
+                JSON_in_progress = true;
                 GetRecipeByIDs(makeRecipeCard, {ids: favorite_list.join(",")})
                 return;
             }
@@ -716,3 +721,20 @@ function addToStorage (array_of_objects) {
 }
 
 document.querySelector(".navbar-brand").addEventListener("click", loadFrontPage, false);
+
+window.addEventListener("scroll", function() {
+    if (window.pageYOffset + window.innerHeight >= document.body.offsetHeight) {
+      // Shows an overlay to the user that there an no favorites, automatically disappears after 1.5 seconds
+        document.querySelector("#modal-message").textContent = "Loading more recipes";
+        document.querySelector(".modal-container").style.display = "flex";
+        setTimeout(function() {document.querySelector(".modal-container").style.display = "none";}, 1500);
+
+        // Boolean to prevent making additional calls while the first one is in progress
+        if (JSON_in_progress == false) {
+            GetRandomRecipes(makeRecipeCard, {number: 100});
+        }
+    }
+
+
+
+}, false);
