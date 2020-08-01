@@ -1,10 +1,42 @@
 let all_recipe_object = [];
+let recipe_container = document.querySelector("#recipe_container");
+let shopping_aisles = [ "Baking",
+                        "Health Foods",
+                        "Spices and Seasonings",
+                        "Pasta and Rice",
+                        "Bakery/Bread",
+                        "Refrigerated",
+                        "Canned and Jarred",
+                        "Frozen",
+                        "Nut butters, Jams, and Honey",
+                        "Oil, Vinegar, Salad Dressing",
+                        "Condiments",
+                        "Savory Snacks",
+                        "Milk, Eggs, Other Dairy",
+                        "Ethnic Foods",
+                        "Tea and Coffee",
+                        "Meat",
+                        "Gourmet",
+                        "Sweet Snacks",
+                        "Gluten Free",
+                        "Alcoholic Beverages",
+                        "Cereal",
+                        "Nuts",
+                        "Beverages",
+                        "Produce",
+                        "Not in Grocery Store/Homemade",
+                        "Seafood",
+                        "Cheese",
+                        "Dried Fruits",
+                        "Online",
+                        "Grilling Supplies",
+                        "Bread"];
 
 // Function to dynamically create a recipe card
 function makeRecipeCard(array_of_recipe_objects) {
+    scroll(0,0);
+    recipe_container.innerHTML = "";
     addToStorage(array_of_recipe_objects);
-
-    let recipe_container = document.querySelector("#recipe_container");
 
     // Cycles through each recipe in the array
     for (let recipe_index = 0; recipe_index < array_of_recipe_objects.length; recipe_index++) {
@@ -29,7 +61,7 @@ function makeRecipeCard(array_of_recipe_objects) {
         if (typeof(recipe.imageType) != "undefined") {
             let image = document.createElement("img");
             image.setAttribute("src", SpoonImageURL(recipe.id, recipe.imageType, "636x393", "recipeImages"));
-            image.setAttribute("class", "recipe_image");
+            image.setAttribute("class", "card_image");
             image.setAttribute("alt", recipe.title);
             recipe_div.append(image);
         }
@@ -142,29 +174,357 @@ function trimHTMLString(string_input) {
     return addDotDotDot(trimmed_string);
 }
 
+
 function loadFrontPage() {
 
     // Test mode setup to minimize API calls while in development, loads once and then pulls from local storage on subsequent refreshes
     let current_storage = JSON.parse(localStorage.getItem("recipe_list"));
     if (current_storage == null) {
         GetRandomRecipes(makeRecipeCard, {number: 50});
+    } else {
+
+
+																	  
+								
+
+        let recipe_list = JSON.parse(localStorage.getItem("recipe_list"));
+        makeRecipeCard(recipe_list);
     }
-
-
-    let recipe_list = JSON.parse(localStorage.getItem("recipe_list"));
-    makeRecipeCard(recipe_list);
-
 
 }
 
 loadFrontPage();
 
 
-function openDetailedRecipe (event) {
+function openDetailedRecipe () {
+    scroll(0,0);
     let click_id = this.getAttribute("data-id");
-    console.log(all_recipe_object.filter(recipe => recipe.id == click_id));
+    let recipe_objs = all_recipe_object.filter(recipe => recipe.id == click_id);
+    let recipe = recipe_objs[0];
+    recipe_container.innerHTML = "";
 
+    console.log(recipe);
+
+    // Creates summary section
+    let summary_section = document.createElement("section");
+    summary_section.setAttribute("class", "recipe-summary");
+
+    // Creates header for the recipe
+    let section_head = document.createElement("div");
+    section_head.setAttribute("class", "section-head");
+    section_head.setAttribute("data-id", recipe.id);
+    let title = document.createElement("h2");
+    title.setAttribute("class", "section-title");
+    title.textContent = recipe.title;
+    section_head.append(title);
+    summary_section.append(section_head);
+
+
+    // Adds the recipe image
+    if (typeof(recipe.imageType) != "undefined") {
+        let image = document.createElement("img");
+        image.setAttribute("src", SpoonImageURL(recipe.id, recipe.imageType, "636x393", "recipeImages"));
+        image.setAttribute("class", "recipe_image");
+        image.setAttribute("alt", recipe.title);
+        summary_section.append(image);
+    }
+
+    // Adds the score as a X of 5 star rating
+    summary_section.append(makeStarDiv(recipe.spoonacularScore));
+
+    // Adds the ready in X minutes
+    let ready_time = document.createElement("div");
+    ready_time.setAttribute("class", "ready_time");
+    ready_time.textContent = `Time until ready: ${recipe.readyInMinutes} minutes`;
+    summary_section.append(ready_time);
+
+    summary_section.append(document.createElement("br"));
+
+    // Adds the recipe summary in html format
+    let summary = document.createElement("p");
+    summary.setAttribute("class", "recipe_summary");
+    summary.innerHTML = recipe["summary"];
+    summary_section.append(summary);
+
+    // Adds the summary section to the recipe page
+    recipe_container.append(summary_section);
+
+
+    // Creates ingredient section
+    let ingredient_section = document.createElement("section");
+    ingredient_section.setAttribute("class", "recipe-ingredients");
+
+    // Creates header for the ingredient
+    section_head = document.createElement("div");
+    section_head.setAttribute("class", "section-head");
+    title = document.createElement("h2");
+    title.setAttribute("class", "section-title");
+    title.textContent = "Ingredients:";
+    section_head.append(title);
+
+
+    let button_div = document.createElement("div");
+    button_div.setAttribute("class", "button-div");
+
+    let button_US = document.createElement("button");
+    button_US.setAttribute("id", "btn-US");
+    button_US.setAttribute("class", "btn-unit selected");
+    button_US.textContent = "US";
+    button_US.addEventListener("click", unitToggle, false);
+    button_div.append(button_US);
+
+    let button_metric = document.createElement("button");
+    button_metric.setAttribute("id", "btn-metric");
+    button_metric.setAttribute("class", "btn-unit");
+    button_metric.textContent = "METRIC";
+    button_metric.addEventListener("click", unitToggle, false);
+    button_div.append(button_metric);
+
+    section_head.append(button_div);
+    ingredient_section.append(section_head);
+
+
+    // Adds the ingredients
+    let extended_ingredients = recipe.extendedIngredients;
+    extended_ingredients.sort((a, b) => (a.aisle > b.aisle) ? 1 : -1);
+    let current_aisle = "";
+    let row_obj;
+    for (let index = 0; index < extended_ingredients.length; index++) {
+        current_ingredient = extended_ingredients[index];
+
+        let new_li = document.createElement("li");
+        new_li.setAttribute("class", "ingredient_item");
+        new_li.setAttribute("data-id", current_ingredient.id);
+
+        let input = document.createElement("input");
+        input.setAttribute("class", "ingredient-input");
+        input.setAttribute("type", "checkbox");
+        input.setAttribute("value", "");
+        input.setAttribute("id", current_ingredient.id);
+        new_li.append(input);
+
+        let US = current_ingredient.measures.us;
+        let US_text = document.createElement("label");
+        US_text.setAttribute("class", "US ingredient-label")
+        US_text.setAttribute("for", current_ingredient.id);
+        US_text.textContent = ` ${US.amount} ${US.unitShort} ${current_ingredient.name}`;
+        new_li.append(US_text);
+
+        let metric = current_ingredient.measures.metric;
+        let metric_text = document.createElement("label");
+        metric_text.setAttribute("class", "metric ingredient-label")
+        metric_text.setAttribute("for", current_ingredient.id);
+        metric_text.textContent = ` ${metric.amount} ${metric.unitShort} ${current_ingredient.name}`;
+        new_li.append(metric_text);
+
+        if (current_aisle == current_ingredient.aisle) {
+            // Add to current row
+            row_obj.append(new_li);
+        } else {
+            // Make a new row
+            if (current_aisle != "") {
+                ingredient_section.append(row_obj);
+            }
+            current_aisle = current_ingredient.aisle;
+            row_obj = document.createElement("ul");
+            row_obj.setAttribute("class", "aisle");
+            row_title = document.createElement("h3");
+            row_title.setAttribute("class", "aisle-title");
+            row_title.textContent = current_aisle;
+            row_obj.append(row_title);
+            row_obj.append(new_li);
+        }
+    }
+    ingredient_section.append(row_obj);
+    recipe_container.append(ingredient_section);
+
+
+    let text_instructions = false;
+    let graphic_instructions = false;
+    if (recipe.analyzedInstructions.length > 0) {
+        graphic_instructions = true;
+    }
+
+    if (recipe.instructions != "") {
+        text_instructions = true;
+    }
+
+    if (!text_instructions && !graphic_instructions) {
+        // No instructions available
+        return;
+    }
+    // Creates instructions section
+    let instruction_section = document.createElement("section");
+    instruction_section.setAttribute("class", "recipe-instructions");
+
+    // Creates header for the ingredient
+    section_head = document.createElement("div");
+    section_head.setAttribute("class", "section-head");
+    title = document.createElement("h2");
+    title.setAttribute("class", "section-title");
+    title.textContent = "Instructions:";
+    section_head.append(title);
+
+    button_div = document.createElement("div");
+    button_div.setAttribute("class", "button-div");
+
+    if (graphic_instructions) {
+        let button_graphics = document.createElement("button");
+        button_graphics.setAttribute("id", "btn-graphics");
+        button_graphics.setAttribute("class", "btn-instructions selected");
+        button_graphics.textContent = "Graphics";
+        button_graphics.addEventListener("click", instructionToggle, false);
+        button_div.append(button_graphics);
+    }
+
+    if (text_instructions) {
+        let button_text = document.createElement("button");
+        button_text.setAttribute("id", "btn-text");
+        button_text.setAttribute("class", "btn-instructions ");
+        button_text.textContent = "Text";
+        button_text.addEventListener("click", instructionToggle, false);
+        button_div.append(button_text);
+    }
+
+    section_head.append(button_div);
+    instruction_section.append(section_head);
+
+    if (text_instructions) {
+        let instruction_text = document.createElement("article");
+        instruction_text.setAttribute("class", "instruction_text");
+        instruction_text.innerHTML = recipe["instructions"];
+        instruction_section.append(instruction_text);
+    }
+
+    if (graphic_instructions) {
+        let detailed_instructions = recipe.analyzedInstructions[0].steps;
+        let instruction_graphics = document.createElement("article");
+        instruction_graphics.setAttribute("class", "instruction_graphics");
+        for (let step = 0; step < detailed_instructions.length; step++) {
+            let step_obj = detailed_instructions[step];
+            // console.log(detailed_instructions[step]);
+            let step_id = document.createElement("div");
+            step_id.setAttribute("class", "step");
+
+            let step_title = document.createElement("h3");
+            step_title.setAttribute("class", "step-title");
+            if (typeof(step_obj.length) != "undefined") {
+                step_title.textContent = `Step ${step_obj.number}: ${step_obj.length.number} ${step_obj.length.unit}`;
+            } else {
+                step_title.textContent = `Step ${step_obj.number}`;
+            }
+            step_id.append(step_title);
+
+            let step_instruction = document.createElement("div");
+            step_instruction.setAttribute("class", "step-instruction");
+            step_instruction.textContent = step_obj.step;
+            step_id.append(step_instruction);
+
+            if (step_obj.ingredients.length > 0) {
+                let step_ingredient = document.createElement("div");
+                step_ingredient.setAttribute("class", "step-figures");
+                for (ingredient = 0; ingredient < step_obj.ingredients.length; ingredient++) {
+                    if (step_obj.ingredients[ingredient].image != "") {
+                        let ingredient_figure = document.createElement("figure");
+
+                        let ingredient_image = document.createElement("img");
+                        ingredient_image.setAttribute("src", SpoonImageURL(step_obj.ingredients[ingredient].image, "", "100x100", "ingredients"));
+                        ingredient_image.setAttribute("alt", step_obj.ingredients[ingredient].name);
+                        ingredient_figure.append(ingredient_image);
+
+                        let ingredient_caption = document.createElement("figcaption");
+                        ingredient_caption.textContent = step_obj.ingredients[ingredient].name;
+                        ingredient_figure.append(ingredient_caption);
+
+                        step_ingredient.append(ingredient_figure);
+                    }
+                }
+                step_id.append(step_ingredient);
+            }
+
+            if (step_obj.equipment.length > 0) {
+                let step_equipment = document.createElement("div");
+                step_equipment.setAttribute("class", "step-figures");
+                for (equipment = 0; equipment < step_obj.equipment.length; equipment++) {
+                    if (step_obj.equipment[equipment].image != "") {
+                        let equipment_figure = document.createElement("figure");
+
+                        let equipment_image = document.createElement("img");
+                        equipment_image.setAttribute("src", SpoonImageURL(step_obj.equipment[equipment].image, "", "100x100", "equipment"));
+                        equipment_image.setAttribute("alt", step_obj.equipment[equipment].name);
+                        equipment_figure.append(equipment_image);
+
+                        let equipment_caption = document.createElement("figcaption");
+                        equipment_caption.textContent = step_obj.equipment[equipment].name;
+                        equipment_figure.append(equipment_caption);
+
+                        step_equipment.append(equipment_figure);
+                    }
+                }
+                step_id.append(step_equipment);
+            }
+            instruction_graphics.append(step_id);
+        }
+        instruction_section.append(instruction_graphics);
+    }
+    recipe_container.append(instruction_section);
 }
+
+function unitToggle () {
+    // Remove buttons focus
+    document.activeElement.blur();
+
+    let btn_id = this.getAttribute("id");
+    if (this.classList.contains("selected")) {
+        // Already selected, do nothing
+        return;
+    }
+
+
+    let US_style = "none";
+    let metric_style = "none";
+    if (btn_id == "btn-metric") {
+        document.querySelector("#btn-US").classList.remove("selected");
+        metric_style = "block";
+    } else {
+        document.querySelector("#btn-metric").classList.remove("selected");
+        US_style = "block";
+    }
+
+    let metric_ingredients = document.querySelectorAll(".metric");
+    for (let i = 0; i < metric_ingredients.length; i++) {
+        metric_ingredients[i].style.display = metric_style;
+    }
+
+    let US_ingredients = document.querySelectorAll(".US");
+    for (let i = 0; i < US_ingredients.length; i++) {
+        US_ingredients[i].style.display = US_style;
+    }
+
+    this.classList.add("selected");
+}
+
+function instructionToggle () {
+    // Remove buttons focus
+    document.activeElement.blur();
+
+    let btn_id = this.getAttribute("id");
+    if (this.classList.contains("selected")) {
+        // Already selected, do nothing
+        return;
+    }
+    if (btn_id == "btn-graphics") {
+        document.querySelector("#btn-text").classList.remove("selected");
+        document.querySelector(".instruction_text").style.display = "none";
+        document.querySelector(".instruction_graphics").style.display = "block";
+    } else {
+        document.querySelector("#btn-graphics").classList.remove("selected");
+        document.querySelector(".instruction_graphics").style.display = "none";
+        document.querySelector(".instruction_text").style.display = "block";
+    }
+    this.classList.add("selected");
+}
+
 
 function addToStorage (array_of_objects) {
 
@@ -186,8 +546,12 @@ function addToStorage (array_of_objects) {
         uploadOBJ = array_of_objects;
     }
 
+    all_recipe_object = uploadOBJ;
+
     // Converts the object to a string and uploads to local storage
     var json_obj = JSON.stringify(uploadOBJ);
     localStorage.setItem("recipe_list", json_obj);
-    console.log(uploadOBJ);
+						   
 }
+
+document.querySelector(".navbar-brand").addEventListener("click", loadFrontPage, false);
