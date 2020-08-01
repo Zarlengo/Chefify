@@ -430,8 +430,109 @@ function localFavorite(recipe_id, method) {
 
 
 }
+// Function to load the contact page
+function loadContact() {
+    // Reset page
+    scroll(0,0);
+    recipe_container.innerHTML = "";
+
+    // Creates header for the contact page
+    let section_head = document.createElement("div");
+    section_head.setAttribute("class", "section-head");
+    let title = document.createElement("h2");
+    title.setAttribute("class", "section-title");
+    title.textContent = "Contact";
+    section_head.append(title);
+    recipe_container.append(section_head);
+    recipe_container.append(document.createElement("hr"));
+
+    // Creates content div
+    let contact_content = document.createElement("div");
+    contact_content.setAttribute("class", "contact-content");
+
+    // Creates a contact form
+    let contact_form = document.createElement("div");
+    contact_form.setAttribute("id", "contact-form");
+    contact_form.setAttribute("action", "./php/email.php");
+
+    // Creates a hidden enter button, prevents submit on enter
+    let enter_btn = document.createElement("button");
+    enter_btn.setAttribute("type", "submit");
+    enter_btn.disabled = true;
+    enter_btn.setAttribute("style", "display: none;");
+    contact_form.append(enter_btn);
+
+    // Creates the name input
+    let name_label = document.createElement("label");
+    name_label.setAttribute("class", "form-titles");
+    name_label.setAttribute("for", "name");
+    name_label.innerHTML = '<i class="fa fa-user" aria-hidden="true"></i> Name';
+    contact_form.append(name_label);
+
+    let name_input = document.createElement("input");
+    name_input.setAttribute("class", "form-content");
+    name_input.setAttribute("type", "text");
+    name_input.setAttribute("id", "name");
+    name_input.setAttribute("name", "name");
+    name_input.setAttribute("value", "Your name");
+    contact_form.append(name_input);    
+    contact_form.append(document.createElement("br"));
+
+    // Creates the email address input
+    let email_label = document.createElement("label");
+    email_label.setAttribute("class", "form-titles");
+    email_label.setAttribute("for", "email");
+    email_label.innerHTML = '<i class="fa fa-envelope" aria-hidden="true"></i> Email';
+    contact_form.append(email_label);
+
+    let email_input = document.createElement("input");
+    email_input.setAttribute("class", "form-content");
+    email_input.setAttribute("type", "email");
+    email_input.setAttribute("id", "email");
+    email_input.setAttribute("name", "email");
+    email_input.setAttribute("value", "email@email.com");
+    contact_form.append(email_input);    
+    contact_form.append(document.createElement("br"));
+
+    // Creates the emal content input
+    let message_label = document.createElement("label");
+    message_label.setAttribute("class", "form-titles");
+    message_label.setAttribute("for", "message");
+    message_label.innerHTML = '<i class="fa fa-rocket" aria-hidden="true"></i> Message';
+    contact_form.append(message_label);
+
+    let message_span = document.createElement("span");
+    message_span.setAttribute("class", "resize");
+
+    let message_input = document.createElement("input");
+    message_input.setAttribute("class", "form-content message");
+    message_input.setAttribute("type", "text");
+    message_input.setAttribute("id", "message");
+    message_input.setAttribute("name", "message");
+    message_span.append(message_input);
+    contact_form.append(message_span);
+    contact_form.append(document.createElement("br"));
+    
+    let submit_btn = document.createElement("button");
+    submit_btn.setAttribute("form", "contact-form");
+    submit_btn.setAttribute("class", "submit-button");
+    submit_btn.setAttribute("type", "submit");
+    submit_btn.setAttribute("value", "Submit");
+    submit_btn.textContent = "Submit";
+    contact_form.append(submit_btn);
+
+    contact_content.append(contact_form);
 
 
+    //         <button form="contact-form" class="submit-button" type="submit" value="Submit">Submit</button>
+    //         </form>
+
+    recipe_container.append(contact_content);
+
+}
+
+
+// Function to load the main page
 function loadFrontPage() {
     // Reset page
     scroll(0,0);
@@ -443,6 +544,7 @@ function loadFrontPage() {
     document.querySelector("#favorites-btn").addEventListener("click", favoritePage, false);
     document.querySelector("#favorites-icon").addEventListener("click", favoritePage, false);
     document.querySelector("#shopping-btn").addEventListener("click", getShoppingList, false);
+    document.querySelector("#contact-btn").addEventListener("click", loadContact, false);
 
 
 
