@@ -445,6 +445,73 @@ body {
   justify-content: center;
 }
 
+/* Menu items still in work */
+.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Styles for the contact page */
+.contact-content {
+    margin-top: 30px;
+    width: 100%;
+}
+
+
+.contact-form {
+    width: 100%;
+}
+
+hr {
+  width: 100%;
+  background: var(--dark-background-color);
+}
+
+.form-titles {
+    display: block;
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.form-content {
+    display: block;
+    width: 80%;
+    margin: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+/*  Options to allow resizing of the message text box by
+    dragging the selector in the bottom right  */
+.resize {
+    overflow-y: hidden;
+    resize: vertical;
+    white-space: nowrap;
+    min-height: 100px;
+    display: block;
+    margin: auto;
+    width: 81%;
+}
+
+.message {
+    width: 98%;
+    height: 100%;
+    min-height: 100px;
+}
+
+.submit-button {
+    display: block;
+    border-radius: 5px;
+    border: 0 solid;
+    margin: auto;
+    padding: 5px 35px 5px 35px;
+    background-color: var(--dark-background-color);
+    color: var(--dark-background-font-color);
+}
+
+
 /* Formatting changes for larger screens / computers */
 @media (min-width: 550px) {
     .nav-search {
