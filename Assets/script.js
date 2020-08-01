@@ -723,6 +723,9 @@ function addToStorage (array_of_objects) {
 document.querySelector(".navbar-brand").addEventListener("click", loadFrontPage, false);
 
 window.addEventListener("scroll", function() {
+    if (document.querySelector(".back-btn").style.display != "none") {
+        return;
+    }
     if (window.pageYOffset + window.innerHeight >= document.body.offsetHeight) {
       // Shows an overlay to the user that there an no favorites, automatically disappears after 1.5 seconds
         document.querySelector("#modal-message").textContent = "Loading more recipes";
