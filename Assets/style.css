@@ -154,6 +154,11 @@
     padding-right: 20px;
 }
 
+.card-favorite {
+    float:right;
+    cursor: pointer;
+}
+
 .recipe_summary{
     padding-bottom: 20px;
 }
@@ -315,18 +320,16 @@ body {
     justify-content: space-between;
 }
 
-.navbar a {
-    text-align: center;
-    text-decoration: none;
-    color: inherit;
-}
-
 /* Left side of nav bar */
 .navbar-brand {
     padding-left: 30px;
     font-weight: bold;
     font-size: 30px;
     cursor: pointer;
+}
+
+.back-btn {
+    display: none;
 }
 
 /* Right side of nav bar */
@@ -379,10 +382,9 @@ body {
     z-index: 1000;
     right: 0;
 }
-.dropdown-content a {
+.dropdown-content li {
     float: none;
     padding: 12px 16px;
-    text-decoration: none;
     display: block;
     text-align: left;
     white-space: nowrap;
@@ -404,6 +406,32 @@ body {
 .dropdown-content a:hover {
     background-color: var(--accent-color-primary);
     color: var(--accent-font-color);
+}
+
+
+/* Modal notification */
+.modal-container {
+  position: absolute;
+  top: 100px;
+  width: 100%;
+  height: 60px;
+  z-index: 1;
+  display: none;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.modal {
+  width: 250px;
+  border: 1px black solid;
+  border-radius: 20px;
+  color: var(--main-font-color);
+  background-color: var(--main-background-color);
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
 }
 
 /* Formatting changes for larger screens / computers */

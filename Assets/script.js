@@ -34,15 +34,23 @@ let shopping_aisles = [ "Baking",
 
 // Function to dynamically create a recipe card
 function makeRecipeCard(array_of_recipe_objects) {
+    // Reset page
     scroll(0,0);
     recipe_container.innerHTML = "";
+    
+    // Stores any new recipes to local storage (speed up loading old recipes)
     addToStorage(array_of_recipe_objects);
 
     // Cycles through each recipe in the array
     for (let recipe_index = 0; recipe_index < array_of_recipe_objects.length; recipe_index++) {
+        
+        // Checks if there is an error in the local object and skips
+        let recipe = array_of_recipe_objects[recipe_index];
+        if (typeof(recipe.id) == "undefined") {
+            continue;
+        }
 
         // Creates a new container element for each recipe
-        let recipe = array_of_recipe_objects[recipe_index];
         let recipe_div = document.createElement("div");
         recipe_div.setAttribute("data-id", recipe.id);
         recipe_div.setAttribute("class", "card");
@@ -67,7 +75,7 @@ function makeRecipeCard(array_of_recipe_objects) {
         }
 
         // Adds the score as a X of 5 star rating
-        recipe_div.append(makeStarDiv(recipe.spoonacularScore));
+        recipe_div.append(makeStarDiv(recipe.spoonacularScore, recipe.id));
 
         // Adds the ready in X minutes
         let ready_time = document.createElement("div");
@@ -90,7 +98,7 @@ function makeRecipeCard(array_of_recipe_objects) {
 
 
 // Function to get stars in a "p" element
-function makeStarDiv(number) {
+function makeStarDiv(number, data_id) {
     // Calculates the number of stars to show based on the rating
     // Calculated out of 10 stars to get the half to show when reduced to only 5 (9 stars = 4.5)
     let num_of_stars = Math.round(parseInt(number) / 10);
@@ -117,11 +125,30 @@ function makeStarDiv(number) {
         }
         star_container.append(star_img);
     }
+
+    // Adds the favorite icon
+    let favorite = document.createElement("i");
+
+    // Checks if the recipe is currently a favorite
+    if (isFavorite(data_id)) {
+        favorite.setAttribute("class", "fas fa-heart card-favorite");
+    } else {
+        favorite.setAttribute("class", "fa fa-heart-o card-favorite");
+    }
+
+    // Stores recipe id and attaches an event handler to the icon
+    favorite.setAttribute("data-id", data_id);
+    favorite.addEventListener("click", favoriteClick, false)
+    star_container.append(favorite);
+
     return star_container;
 }
 
 // Function which checks a string for closed HTML elements and trims the string
 function trimHTMLString(string_input) {
+    if (typeof(string_input) == "undefined") {
+        return "";
+    }
     const trim_length = 200;
 
     // If the string is already smaller than the max length
@@ -174,19 +201,107 @@ function trimHTMLString(string_input) {
     return addDotDotDot(trimmed_string);
 }
 
+// Function to handle the click on a favorite icon on the recipe
+function favoriteClick(event) {
+    // Prevents opening up the recipe
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Checks if this is already a favorite
+    if (this.classList.contains("fa-heart-o")) {
+        this.classList.remove("fa", "fa-heart-o");
+        this.classList.add("fas", "fa-heart");
+        localFavorite(this.getAttribute("data-id"), "add");
+    } else if (this.classList.contains("fa-heart")) {
+        this.classList.remove("fas", "fa-heart");
+        this.classList.add("fa", "fa-heart-o");
+        localFavorite(this.getAttribute("data-id"), "remove");
+    }
+
+}
+
+// Function to check if the recipe is a favorite
+function isFavorite(recipe_id) {
+    if (typeof(recipe_id) == "undefined") {
+        return false;
+    }
+
+    // Checks within local storage for the recipe id
+    let current_storage = JSON.parse(localStorage.getItem("favorite_list"));
+    if (current_storage != null) {
+        if (current_storage.includes(recipe_id.toString())) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// Function to handle the favorite data in local storage
+function localFavorite(recipe_id, method) {
+
+    // Gets the current favorite object
+    let current_storage = JSON.parse(localStorage.getItem("favorite_list"));
+
+    // If the method is adding the recipe id to the favorite list
+    if (method == "add") {            
+        if (current_storage != null) {
+            // If there is an existing entry, adds to this object
+            if (current_storage.includes(recipe_id)) {
+                    // Do nothing, already saved as a favorite
+            } else {
+                // Adds the recipe id to the list
+                current_storage.push(recipe_id);            
+            }
+            // Array for saving to the local storage
+            uploadOBJ = current_storage;
+        } else {
+            // If this is the first entry
+            uploadOBJ = [recipe_id];
+        }
+
+    // If the method is removing the recipe from the favorite list
+    } else if (method == "remove") {
+
+        // If there are currently favorites in the storage
+        if (current_storage != null) {
+            // Checks if the recipe id exists in storage
+            if (current_storage.includes(recipe_id)) {
+                let recipe_index = current_storage.indexOf(recipe_id);
+                current_storage.splice(recipe_index, 1);
+                uploadOBJ = current_storage;
+            } else {
+                // Do nothing, the recipe ID is not in local storage
+            }
+        } else {
+            // Do nothing, nothing saved in local storage
+        }
+    }
+
+    // Converts the object to a string and uploads to local storage
+    var json_obj = JSON.stringify(uploadOBJ);
+    localStorage.setItem("favorite_list", json_obj);
+
+
+}
+
 
 function loadFrontPage() {
+    // Reset page
+    document.querySelector(".back-btn").style.display = "none";
+
+
+    // Adds event listeners to drop-down menu
+    document.querySelector("#favorites-btn").addEventListener("click", favoritePage, false);
+    document.querySelector("#favorites-icon").addEventListener("click", favoritePage, false);
+
+
 
     // Test mode setup to minimize API calls while in development, loads once and then pulls from local storage on subsequent refreshes
     let current_storage = JSON.parse(localStorage.getItem("recipe_list"));
     if (current_storage == null) {
         GetRandomRecipes(makeRecipeCard, {number: 50});
     } else {
-
-
-																	  
-								
-
         let recipe_list = JSON.parse(localStorage.getItem("recipe_list"));
         makeRecipeCard(recipe_list);
     }
@@ -195,15 +310,41 @@ function loadFrontPage() {
 
 loadFrontPage();
 
+function favoritePage() {
+    // Reset page
+    document.querySelector(".back-btn").style.display = "inline-block";
+
+    let favorite_list = JSON.parse(localStorage.getItem("favorite_list"));
+    let current_storage = JSON.parse(localStorage.getItem("recipe_list"));
+    if (favorite_list == null || favorite_list.length == 0) {
+      // Shows an overlay to the user that there an no favorites, automatically disappears after 1.5 seconds
+        document.querySelector("#modal-message").textContent = "No favorite recipes selected";
+        document.querySelector(".modal-container").style.display = "flex";
+        setTimeout(function() {document.querySelector(".modal-container").style.display = "none";}, 1500);
+    } else {
+        let favorite_object = [];
+        for (let favorite_index = 0; favorite_index < favorite_list.length; favorite_index++) {
+            let favorite_id = favorite_list[favorite_index];
+            if (current_storage.filter(recipe => recipe.id == favorite_id).length > 0) {
+                favorite_object.push(current_storage.filter(recipe => recipe.id == favorite_id)[0]);
+            } else {
+                GetRecipeByIDs(makeRecipeCard, {ids: favorite_list.join(",")})
+                return;
+            }
+        }
+        makeRecipeCard(favorite_object);
+    }
+}
 
 function openDetailedRecipe () {
+    // Reset page
     scroll(0,0);
+    document.querySelector(".back-btn").style.display = "inline-block";
+    recipe_container.innerHTML = "";
+
     let click_id = this.getAttribute("data-id");
     let recipe_objs = all_recipe_object.filter(recipe => recipe.id == click_id);
     let recipe = recipe_objs[0];
-    recipe_container.innerHTML = "";
-
-    console.log(recipe);
 
     // Creates summary section
     let summary_section = document.createElement("section");
@@ -219,7 +360,6 @@ function openDetailedRecipe () {
     section_head.append(title);
     summary_section.append(section_head);
 
-
     // Adds the recipe image
     if (typeof(recipe.imageType) != "undefined") {
         let image = document.createElement("img");
@@ -230,7 +370,7 @@ function openDetailedRecipe () {
     }
 
     // Adds the score as a X of 5 star rating
-    summary_section.append(makeStarDiv(recipe.spoonacularScore));
+    summary_section.append(makeStarDiv(recipe.spoonacularScore, recipe.id));
 
     // Adds the ready in X minutes
     let ready_time = document.createElement("div");
@@ -262,10 +402,11 @@ function openDetailedRecipe () {
     title.textContent = "Ingredients:";
     section_head.append(title);
 
-
+    // Adds a container for hte metric / US unit buttons
     let button_div = document.createElement("div");
     button_div.setAttribute("class", "button-div");
 
+    // Adds a US unit button
     let button_US = document.createElement("button");
     button_US.setAttribute("id", "btn-US");
     button_US.setAttribute("class", "btn-unit selected");
@@ -273,6 +414,7 @@ function openDetailedRecipe () {
     button_US.addEventListener("click", unitToggle, false);
     button_div.append(button_US);
 
+    // Adds a metric unit button
     let button_metric = document.createElement("button");
     button_metric.setAttribute("id", "btn-metric");
     button_metric.setAttribute("class", "btn-unit");
@@ -338,7 +480,7 @@ function openDetailedRecipe () {
     ingredient_section.append(row_obj);
     recipe_container.append(ingredient_section);
 
-
+    // Booleans incase there are no recipe instructions
     let text_instructions = false;
     let graphic_instructions = false;
     if (recipe.analyzedInstructions.length > 0) {
@@ -365,9 +507,11 @@ function openDetailedRecipe () {
     title.textContent = "Instructions:";
     section_head.append(title);
 
+    // Creates a container for the instruction buttons
     button_div = document.createElement("div");
     button_div.setAttribute("class", "button-div");
 
+    // Adds a button for the graphic only version of the instructions
     if (graphic_instructions) {
         let button_graphics = document.createElement("button");
         button_graphics.setAttribute("id", "btn-graphics");
@@ -377,6 +521,7 @@ function openDetailedRecipe () {
         button_div.append(button_graphics);
     }
 
+    // Adds a button for the text only version of the instructions
     if (text_instructions) {
         let button_text = document.createElement("button");
         button_text.setAttribute("id", "btn-text");
@@ -389,6 +534,7 @@ function openDetailedRecipe () {
     section_head.append(button_div);
     instruction_section.append(section_head);
 
+    // Adds the text only instructions to the page
     if (text_instructions) {
         let instruction_text = document.createElement("article");
         instruction_text.setAttribute("class", "instruction_text");
@@ -396,16 +542,19 @@ function openDetailedRecipe () {
         instruction_section.append(instruction_text);
     }
 
+    // Adds the graphical instruction to the page
     if (graphic_instructions) {
         let detailed_instructions = recipe.analyzedInstructions[0].steps;
         let instruction_graphics = document.createElement("article");
         instruction_graphics.setAttribute("class", "instruction_graphics");
+
+        // Cycles through each step in the recipe
         for (let step = 0; step < detailed_instructions.length; step++) {
             let step_obj = detailed_instructions[step];
-            // console.log(detailed_instructions[step]);
             let step_id = document.createElement("div");
             step_id.setAttribute("class", "step");
 
+            // Creates the step title
             let step_title = document.createElement("h3");
             step_title.setAttribute("class", "step-title");
             if (typeof(step_obj.length) != "undefined") {
@@ -415,11 +564,13 @@ function openDetailedRecipe () {
             }
             step_id.append(step_title);
 
+            // Adds the step instructions
             let step_instruction = document.createElement("div");
             step_instruction.setAttribute("class", "step-instruction");
             step_instruction.textContent = step_obj.step;
             step_id.append(step_instruction);
 
+            // Adds the ingredients used in the step
             if (step_obj.ingredients.length > 0) {
                 let step_ingredient = document.createElement("div");
                 step_ingredient.setAttribute("class", "step-figures");
@@ -442,6 +593,7 @@ function openDetailedRecipe () {
                 step_id.append(step_ingredient);
             }
 
+            // Adds the equipment used in the step
             if (step_obj.equipment.length > 0) {
                 let step_equipment = document.createElement("div");
                 step_equipment.setAttribute("class", "step-figures");
@@ -470,6 +622,7 @@ function openDetailedRecipe () {
     recipe_container.append(instruction_section);
 }
 
+// Function to handle the unit button press
 function unitToggle () {
     // Remove buttons focus
     document.activeElement.blur();
@@ -483,6 +636,8 @@ function unitToggle () {
 
     let US_style = "none";
     let metric_style = "none";
+
+    // Checks which button was pressed, and switches the selected to the one clicked on
     if (btn_id == "btn-metric") {
         document.querySelector("#btn-US").classList.remove("selected");
         metric_style = "block";
@@ -491,11 +646,13 @@ function unitToggle () {
         US_style = "block";
     }
 
+    // Shows/hide the metric ingredients on the page
     let metric_ingredients = document.querySelectorAll(".metric");
     for (let i = 0; i < metric_ingredients.length; i++) {
         metric_ingredients[i].style.display = metric_style;
     }
 
+    // Shows/hide the US ingredients on the page
     let US_ingredients = document.querySelectorAll(".US");
     for (let i = 0; i < US_ingredients.length; i++) {
         US_ingredients[i].style.display = US_style;
@@ -504,6 +661,7 @@ function unitToggle () {
     this.classList.add("selected");
 }
 
+// Function to handle clicking on the instructions button
 function instructionToggle () {
     // Remove buttons focus
     document.activeElement.blur();
@@ -513,6 +671,8 @@ function instructionToggle () {
         // Already selected, do nothing
         return;
     }
+
+    // Checks which button was pressed and updates accordingly
     if (btn_id == "btn-graphics") {
         document.querySelector("#btn-text").classList.remove("selected");
         document.querySelector(".instruction_text").style.display = "none";
@@ -525,9 +685,10 @@ function instructionToggle () {
     this.classList.add("selected");
 }
 
-
+// Function to add recipes to local storage
 function addToStorage (array_of_objects) {
 
+    // Gets the current recipe list from storage
     let current_storage = JSON.parse(localStorage.getItem("recipe_list"));
     
     if (current_storage != null) {

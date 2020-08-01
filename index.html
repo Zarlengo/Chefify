@@ -11,6 +11,7 @@
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
         crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./Assets/style.css" />
 </head>
 <body>
@@ -172,21 +173,23 @@
   
   <header>
     <nav class="navbar">
-      <div class="nav-left-content navbar-brand">Chefify</div>
+      <div class="nav-left-content navbar-brand"><i class="fas fa-chevron-circle-left back-btn">&nbsp;&nbsp;</i>Chefify</div>
       <div class="nav-right-content">
         <div class="nav-search">
           <input id="searchText" name="searchText" type="text" placeholder="Quick search" class="recipe-search">
           <i class="fas fa-search search-icon"></i>
         </div>
-        <i class="fas fa-heart nav-favorite"></i>
+        <i id="favorites-icon" class="fas fa-heart nav-favorite"></i>
         <div class="dropdown"><i class="fas fa-bars"></i>
           <div class="dropdown-content">
-            <a class="dropdown-item" href="#">Recipe Search</a>
-            <a class="dropdown-item" href="#">Shopping List</a>
-            <a class="dropdown-item" href="#">Favorites</a>
-            <a class="dropdown-item" href="#">Meal History</a>
-            <a class="dropdown-item" href="#">Settings</a>
-            <a class="dropdown-item" href="#">Contact Us</a>
+            <ol>
+                <li class="dropdown-item" href="#">Recipe Search</li>
+                <li class="dropdown-item" href="#">Shopping List</li>
+                <li id="favorites-btn" class="dropdown-item">Favorites</li>
+                <li class="dropdown-item" href="#">Meal History</li>
+                <li class="dropdown-item" href="#">Settings</li>
+                <li class="dropdown-item" href="#">Contact Us</li>
+            </ol>
           </div>
         </div>
       </div>
@@ -196,6 +199,12 @@
 
   <section id="recipe_container">
   </section>
+  <!-- Overlay modal to provide a notification to the user -->
+  <div class="modal-container">
+    <div class="modal">
+    <p id="modal-message">Message Content</p>
+    </div>
+  </div>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
