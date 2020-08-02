@@ -1,4 +1,7 @@
 let all_recipe_object = [];
+let added_Ingredients = [];
+let excluded_Ingredients = [];
+let ids_array = [];
 
 // Function to dynamically create a recipe card
 function makeRecipeCard(array_of_recipe_objects) {
@@ -48,7 +51,6 @@ function makeRecipeCard(array_of_recipe_objects) {
         summary.setAttribute("class", "recipe_summary");
         summary.innerHTML = trimHTMLString(recipe["summary"]);
         recipe_div.append(summary);
-
 
         // Adds the card to the page
         recipe_container.append(recipe_div);
@@ -160,13 +162,13 @@ function loadFrontPage() {
 loadFrontPage();
 
 
-function openDetailedRecipe (event) {
+function openDetailedRecipe(event) {
     let click_id = this.getAttribute("data-id");
     console.log(all_recipe_object.filter(recipe => recipe.id == click_id));
 
 }
 
-function addToStorage (array_of_objects) {
+function addToStorage(array_of_objects) {
 
     let current_storage = JSON.parse(localStorage.getItem("recipe_list"));
     
@@ -191,3 +193,202 @@ function addToStorage (array_of_objects) {
     localStorage.setItem("recipe_list", json_obj);
     console.log(uploadOBJ);
 }
+
+function addedIngredients(add) {
+    // console.log(add);
+    let added_ingredients = document.querySelector(".added-ingredients");
+    added_ingredients.textContent = '';
+    added_Ingredients.push(add);
+    for (i = 0; i < added_Ingredients.length; i++) {
+        var li = document.createElement("button");
+        var li_exit = " x";
+        var li_text = document.createTextNode(added_Ingredients[i]+li_exit)
+        li.appendChild(li_text);
+        li.setAttribute('id', 'aIngredient-'+i);
+        li.setAttribute('value', added_Ingredients[i]);
+        // li.setAttribute('text', added_Ingredients[i]);
+        var element = document.querySelector(".added-ingredients");
+        element.appendChild(li);
+    }
+}
+
+function excludedIngredients(exclude) {
+    console.log(exclude);
+    let excluded_ingredients = document.querySelector(".excluded-ingredients");
+    excluded_ingredients.textContent = '';
+    excluded_Ingredients.push(exclude);
+    for (i = 0; i < excluded_Ingredients.length; i++) {
+        var li = document.createElement("button");
+        var li_exit = " x"
+        var li_text = document.createTextNode(excluded_Ingredients[i]+li_exit);
+        li.appendChild(li_text);
+        li.setAttribute('id', 'eIngredient-'+i);
+        li.setAttribute('value', excluded_Ingredients[i]);
+        // li.setAttribute('text', added_Ingredients[i]);
+        var element = document.querySelector(".excluded-ingredients");
+        element.appendChild(li);
+    }
+}
+
+// function recipeOutput(input) {
+//     console.log(input);
+// }
+function displaySearchParameters() {
+    let search_parameters = document.querySelector(".search-parameters");
+    let add_ingredients = added_Ingredients.join(",");
+    console.log(add_ingredients);
+    var p = document.createElement("p");
+    var p_text = document.createTextNode("Your ingredients include: " + add_ingredients);
+    p.appendChild(p_text);
+    search_parameters.appendChild(p);
+    document.querySelector(".sec-search-ingredients").setAttribute("style", "display: none;");
+}
+
+function recipesIDs(ids) {
+    // recipe_by_ingredients = JSON.parse(localStorage.getItem("recipe_list"));
+    console.log(ids);
+    for (i = 0; i < ids.length; i++) {
+        ids_array.push(ids[i].id);
+    }
+
+    let ids_string = ids_array.join(",");
+    ids_string = ids_string.toString();
+    console.log(ids_string);
+    // console.log(ids_array);
+    localStorage.removeItem("recipe_list");
+    let recipe_container = document.querySelector("#recipe_container");
+    recipe_container.textContent = '';
+    GetRecipeByIDs(makeRecipeCard, {ids: ids_string, number: 10});
+    displaySearchParameters();
+}
+
+document.querySelector(".search-ingredient").addEventListener("click", function() {
+    document.querySelector(".search").setAttribute("style", "display: none;");
+    document.querySelector(".sec-search-ingredients").setAttribute("style", "display: flex;");
+});
+
+document.querySelector(".add-ingredient-button").addEventListener("click", function() {
+    var ingredient = document.querySelector("#sec-search-add-ingredient").value;
+    // console.log(ingredient);
+    addedIngredients(ingredient);
+});
+
+document.querySelector(".exclude-ingredient-button").addEventListener("click", function() {
+    var ingredient = document.querySelector("#sec-search-exclude-ingredient").value;
+    excludedIngredients(ingredient);
+});
+
+document.querySelector("#exit-ingredient-search").addEventListener("click", function() {
+    document.querySelector(".search").setAttribute("style", "display: flex;");
+    document.querySelector(".sec-search-ingredients").setAttribute("style", "display: none;");
+});
+
+document.querySelector(".submit-ingredient-search").addEventListener("click", function() {
+    var ingredients = added_Ingredients.join(",");
+    GetRecipesByIngredients(recipesIDs, {ingredients: ingredients, number:50});
+});
+
+
+// $(document).ready(function() {
+
+//     function addedIngredients(add) {
+//         $(".added-ingredients").empty();
+//         added_Ingredients.push(add);
+//         for (i = 0; i < added_Ingredients.length; i++) {
+//             var li = $("<p>");
+//             li.attr('id', "aIngredient-"+i);
+//             li.attr('value', added_Ingredients[i]);
+//             li.text(added_Ingredients[i]);
+//             $(".added-ingredients").append(li);
+//             console.log(li);
+//         }
+//         console.log(li);
+//     }
+
+//     function excludedIngredients(exclude) {
+//         $(".excluded-ingredients").empty();
+//         excluded_Ingredients.push(exclude);
+//         for (i = 0; i < excluded_Ingredients.length; i++) {
+//             var li = $("<p>");
+//             // li.addClass("exclude-ing");
+//             li.attr('id', "eIngredient-"+i);
+//             li.attr('value', excluded_Ingredients[i]);
+//             li.text(excluded_Ingredients[i]);
+//             $(".excluded-ingredients").append(li);
+//         }
+//         console.log(li);
+//     }
+
+//     function recipesIDs() {
+//         recipe_by_ingredients = JSON.parse(localStorage.getItem("recipe_list"));
+//         console.log(recipe_by_ingredients);
+
+//         for (i = 0; i < recipe_by_ingredients.length; i++) {
+//             ids_array.push(recipe_by_ingredients[i].id);
+//         }
+//         console.log(ids_array);
+//     }
+
+    
+
+//     $(".search-ingredient").on("click", function() {
+//         $(".search").css("display","none");
+//         $(".sec-search-ingredients").css("display","flex");
+//     });
+
+//     $(".add-ingredient-button").on("click", function() {
+//         var ingredient = $("#sec-search-add-ingredient").val();
+//         addedIngredients(ingredient);
+//     });
+
+//     $(".exclude-ingredient-button").on("click", function() {
+//         var ingredient = $("#sec-search-exclude-ingredient").val();
+//         excludedIngredients(ingredient);
+//         $("#sec-search-exclude-ingredients").css("display","block")
+//     });
+
+//     $("#exit-ingredient-search").on("click", function() {
+//         $(".sec-search-ingredients").css("display","none");
+//         $(".search").css("display","flex");
+//     });
+
+//     $(".submit-ingredient-search").on("click", function() {
+//         // localStorage.removeItem("recipe_list");
+//         GetRecipesByIngredients(addToStorage, {ingredients: "apple", number:10});
+
+//         recipesIDs();
+//     });
+
+
+// });
+// search_ingredient = document.querySelector(".search-ingredient");
+// add_ingredient_button = document.querySelector(".search-ingredient");
+// search_ingredient = document.querySelector(".search-ingredient");
+// search_ingredient = document.querySelector(".search-ingredient");
+// search_ingredient = document.querySelector(".search-ingredient");
+
+// document.querySelector(".search-ingredient").addEventListener("click", function() {
+//     document.querySelector(".search").setAttribute("style", "display=none");
+//     document.querySelector(".sec-search-ingredients").setAttribute("style", "display=flex");
+// });
+
+// document.querySelector(".add-ingredient-button").addEventListener("click", function() {
+//     var ingredient = document.querySelector("#sec-search-add-ingredient").innerHTML;
+//     addedIngredients(ingredient);
+
+// });
+
+// document.querySelector(".exclude-ingredient-button").addEventListener("click", function() {
+//     var ingredient = document.querySelector("#sec-search-exclude-ingredient").innerHTML;
+//     excludedIngredients(ingredient);
+// });
+
+// document.querySelector("#exit-ingredient-search").addEventListener("click", function() {
+//     document.querySelector(".search").setAttribute("style", "display=flex");
+//     document.querySelector(".sec-search-ingredients").setAttribute("style", "display=none");
+// });
+
+// document.querySelector(".submit-ingredient-search").addEventListener("click", function() {
+//     localStorage.removeItem("recipe_list");
+//     GetRecipesByIngredients(addToStorage, {ingredients: "apple", number:10});
+// });

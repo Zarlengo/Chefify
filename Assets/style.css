@@ -115,6 +115,124 @@
 .unit {
     padding: 3px;
     padding-left: 0px;
+}
+
+.search {
+    display: flex;
+    height: 50px;
+    background-color: lightgray;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.sec-search-ingredients {
+    display: none;
+    flex-wrap: wrap;
+    /* height: 50px; */
+    height: auto;
+    background-color: lightgray;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.sec-search {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 50px;
+}
+
+#exit-ingredient-search {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    cursor: pointer;
+}
+
+.submit-ingredient-search {
+    cursor: pointer;
+}
+
+.search-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.search-recipes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 225px;
+    
+}
+
+.search-recipe-button {
+    margin-left: -10%;
+    cursor: pointer;
+    height: 30px;
+    background-color: white;
+    border: none;
+}
+
+#search-recipe {
+    width: 225px;
+    height: 30px;
+    padding-left: 5px;;
+}
+
+.search-ingredient {
+    cursor: pointer;
+    height: 30px;
+    margin-left: 10px;
+    padding: 0 5px 0 5px;
+}
+
+.browse-categories-dropdown {
+    /* display: flex; */
+    display: flex;
+    background-color: white;
+    flex-direction: row;
+    align-items: center;
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    margin-right: 10px;
+    padding: 0 5px 0 5px;    
+}
+
+.browse-categories-content {
+    display: none;
+    position: absolute;
+    line-height: inherit;
+    text-align: center;
+}
+
+
+.browse-categories-dropdown:hover .browse-categories-content {
+    display: inline-flex;
+}
+
+
+
+
+.categories-card {
+    border: 1px #808080 solid;
+    background-color: var(--accent-color-primary);
+    color: var(--accent-font-color);
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+}
+
+
+
+.category {
+    list-style-type: none;
+}
 
 /* Styles for recipe cards */
 .card {
@@ -142,7 +260,7 @@
 }
 
 .card_title {
-    padding: 10px 0 10px 30px;
+    padding: 10px 10px 10px 30px;
     margin: 0;
 }
 
@@ -161,6 +279,7 @@ body {
 
 #recipe_container {
     display: flex;
+    /* display: none; */
     flex-direction: row;
     flex-wrap: wrap;
     align-content: center;
