@@ -205,10 +205,43 @@
     <p id="modal-message">Message Content</p>
     </div>
   </div>
-  
+  <!-- Overlay modal to for nutrition -->
+  <div class="nutrition-modal-container">
+    <div class="nutrition-modal">
+        <div class="close-btn"><i class="fas fa-times-circle close"></i></div>
+        <div class="nutrition-title">Nutrition Facts:</div>
+        <div class="nutrition-content">
+            <table class="nutrition-table">
+                <tr><td>Item Name</td>              <td colspan="2"        id="item_name"></td>               </tr>
+                <tr><td>Brand Name</td>             <td colspan="2"        id="brand_name"></td>              </tr>
+                <tr><td>Calories</td>               <td class="table-text" id="nf_calories"></td>             <td>kcal</td></tr>
+                <tr><td>Calories from Fat</td>      <td class="table-text" id="nf_calories_from_fat"></td>    <td>kcal</td></tr>
+                <tr><td>Total Fat</td>              <td class="table-text" id="nf_total_fat"></td>            <td>g</td></tr>
+                <tr><td>Saturated Fat</td>          <td class="table-text" id="nf_saturated_fat"></td>        <td>g</td></tr>
+                <tr><td>Monounsaturated Fat</td>    <td class="table-text" id="nf_monounsaturated_fat"></td>  <td>g</td></tr>
+                <tr><td>Polyunsaturated Fat</td>    <td class="table-text" id="nf_polyunsaturated_fat"></td>  <td>g</td></tr>
+                <tr><td>Trans Fatty Acid</td>       <td class="table-text" id="nf_trans_fatty_acid"></td>     <td>g</td></tr>
+                <tr><td>Cholesterol</td>            <td class="table-text" id="nf_cholesterol"></td>          <td>mg</td></tr>
+                <tr><td>Sodium</td>                 <td class="table-text" id="nf_sodium"></td>               <td>mg</td></tr>
+                <tr><td>Total Carbohydrate</td>     <td class="table-text" id="nf_total_carbohydrate"></td>   <td><g/td></tr>
+                <tr><td>Dietary Fiber</td>          <td class="table-text" id="nf_dietary_fiber"></td>        <td>g</td></tr>
+                <tr><td>Sugars</td>                 <td class="table-text" id="nf_sugars"></td>               <td>g</td></tr>
+                <tr><td>Protein</td>                <td class="table-text" id="nf_protein"></td>              <td>g</td></tr>
+                <tr><td>Vitamin A</td>              <td class="table-text" id="nf_vitamin_a_dv"></td>         <td>% DV</td></tr>
+                <tr><td>Vitamin C</td>              <td class="table-text" id="nf_vitamin_c_dv"></td>         <td>% DV</td></tr>
+                <tr><td>Calcium</td>                <td class="table-text" id="nf_calcium_dv"></td>           <td>% DV</td></tr>
+                <tr><td>Iron</td>                   <td class="table-text" id="nf_iron_dv"></td>              <td>% DV</td></tr>
+                <tr><td>Serving size</td>           <td class="table-text" id="nf_serving_size_qty"></td>     <td id="nf_serving_size_unit"></td></tr>
+                <tr><td>Serving weight</td>         <td class="table-text" id="nf_serving_weight_grams"></td> <td>g</td></tr>
+            </table>
+        </div>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <script src="./Assets/api.js"></script>
+  <script src="./Assets/db_api.js"></script>
   <script src="./Assets/script.js"></script>
 </body>
 </html>   
