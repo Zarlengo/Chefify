@@ -232,6 +232,10 @@
     padding: 0 10px;
 }
 
+.ingredient-figure {
+    cursor: pointer;
+}
+
 .metric {
     display: none;
 }
@@ -422,27 +426,92 @@ body {
 
 /* Modal notification */
 .modal-container {
-  position: fixed;
-  top: 100px;
-  width: 100%;
-  height: 60px;
-  z-index: 1;
-  display: none;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
+    position: fixed;
+    top: 100px;
+    width: 100%;
+    height: 60px;
+    z-index: 1;
+    display: none;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .modal {
-  width: 250px;
-  border: 1px black solid;
-  border-radius: 20px;
-  color: var(--main-font-color);
-  background-color: var(--main-background-color);
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
+    width: 250px;
+    border: 1px black solid;
+    border-radius: 20px;
+    color: var(--main-font-color);
+    background-color: var(--main-background-color);
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+/* Nutrition modal */
+.nutrition-modal-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.nutrition-modal {
+    border: 1px black solid;
+    border-radius: 20px;
+    color: var(--main-font-color);
+    background-color: var(--main-background-color);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.nutrition-title {
+    width: 100%;
+    padding-left: 20px;
+    font-size: 24px;
+}
+.nutrition-title-item {
+    margin: 30px;
+
+}
+
+.close-btn {
+    width: 100%;
+}
+
+.close {
+    font-size: 30px;
+    cursor: pointer;
+    padding-top: 10px;
+    padding-right: 10px;
+    float: right;
+}
+
+.nutrition-table {
+    border-collapse: collapse;
+    white-space: nowrap;
+    margin: 20px;
+}
+
+.nutrition-table td {
+    border-bottom: 1px solid var(--dark-background-color);
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.table-text {
+    text-align: center;
 }
 
 /* Formatting changes for larger screens / computers */

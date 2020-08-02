@@ -213,7 +213,6 @@ function removeFromShop() {
         if (current_storage != null) {
             // If there is an existing entry
             for (storage_index = current_storage.length - 1; storage_index >= 0; storage_index--) {
-                console.log(`ingredient-${current_storage[storage_index].id}`);
                 if (document.querySelector(`#ingredient-${current_storage[storage_index].id}`).checked) {
                     current_storage.splice(storage_index, 1);
                 }
@@ -499,7 +498,6 @@ function openDetailedRecipe () {
     let recipe_objs = all_recipe_object.filter(recipe => recipe.id == click_id);
     let recipe = recipe_objs[0];
 
-    console.log(recipe);
     // Creates summary section
     let summary_section = document.createElement("section");
     summary_section.setAttribute("class", "recipe-summary");
@@ -739,6 +737,9 @@ function openDetailedRecipe () {
                 for (ingredient = 0; ingredient < step_obj.ingredients.length; ingredient++) {
                     if (step_obj.ingredients[ingredient].image != "") {
                         let ingredient_figure = document.createElement("figure");
+                        ingredient_figure.setAttribute("class", "ingredient-figure");
+                        ingredient_figure.setAttribute("data-id", step_obj.ingredients[ingredient].name);
+                        ingredient_figure.addEventListener("click", getNutrition, false);
 
                         let ingredient_image = document.createElement("img");
                         ingredient_image.setAttribute("src", SpoonImageURL(step_obj.ingredients[ingredient].image, "", "100x100", "ingredients"));
@@ -783,6 +784,35 @@ function openDetailedRecipe () {
     }
     recipe_container.append(instruction_section);
 }
+
+// Function to call nutrition api for the ingredient
+function getNutrition() {
+    GetNutritionix(loadNutrition, {query:this.getAttribute("data-id"), fields:nutritionix_fields});
+}
+
+// Function to load nutrition query results into the nutrition modal
+function loadNutrition(result) {
+    let nutrition_data = result.hits[0].fields;
+    let object_keys = Object.keys(result.hits[0].fields);
+    object_keys.forEach(element => {
+        document.querySelector(`#${element}`).textContent = nutrition_data[element];
+    });
+    document.querySelector(".nutrition-modal-container").style.display = "flex";
+
+
+
+}
+
+// Adds some listeners to the setting button and close button
+document.querySelector(".close").addEventListener("click", function () {document.querySelector(".nutrition-modal-container").style.display = "none";}, false);
+
+// In case the user tries to click outside the modal to close
+window.addEventListener("click", function(event) {
+    if (event.target == document.querySelector(".nutrition-modal-container")) {
+        document.querySelector(".nutrition-modal-container").style.display = "none";
+    }
+}, false)
+
 
 // Function to add ingredients to shopping list
 function addToShop () {
