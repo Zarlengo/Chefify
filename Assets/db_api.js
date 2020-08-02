@@ -50,7 +50,7 @@ const nutritionix_fields = ["item_name",
                             "nf_serving_weight_grams"];
 
 
-function URLConstruct(base_URL, additions_object) {
+function nutritionixURLConstruct(base_URL, additions_object) {
     let query_string = "";
     query_string += additions_object.query;
     query_string += `?fields=${additions_object.fields.join(",")}`;
@@ -102,7 +102,7 @@ function GetNutritionix(ReferenceFunction, parameters = {}) {
 
     const search_URL = "https://nutritionix-api.p.rapidapi.com/v1_1/search/";
     
-    let queryURL = URLConstruct(search_URL, parameters);
+    let queryURL = nutritionixURLConstruct(search_URL, parameters);
     fetch(queryURL, API_authorization_nutritionix)
     .then(response => {
         return response.json();
