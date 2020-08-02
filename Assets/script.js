@@ -35,6 +35,7 @@ let shopping_aisles = [ "Baking",
 
 // Function to dynamically create a recipe card
 function makeRecipeCard(array_of_recipe_objects) {
+    document.querySelector(".modal-container").style.display = "none";
     JSON_in_progress = false;
     
     // Stores any new recipes to local storage (speed up loading old recipes)
@@ -450,7 +451,7 @@ function loadContact() {
     contact_content.setAttribute("class", "contact-content");
 
     // Creates a contact form
-    let contact_form = document.createElement("div");
+    let contact_form = document.createElement("form");
     contact_form.setAttribute("id", "contact-form");
     contact_form.setAttribute("action", "./php/email.php");
 
@@ -475,7 +476,6 @@ function loadContact() {
     name_input.setAttribute("name", "name");
     name_input.setAttribute("value", "Your name");
     contact_form.append(name_input);    
-    contact_form.append(document.createElement("br"));
 
     // Creates the email address input
     let email_label = document.createElement("label");
@@ -491,7 +491,6 @@ function loadContact() {
     email_input.setAttribute("name", "email");
     email_input.setAttribute("value", "email@email.com");
     contact_form.append(email_input);    
-    contact_form.append(document.createElement("br"));
 
     // Creates the emal content input
     let message_label = document.createElement("label");
@@ -559,6 +558,9 @@ function loadFrontPage() {
 
 }
 
+// Shows an overlay to the user that the recipes are loading
+document.querySelector("#modal-message").textContent = "Loading recipes";
+document.querySelector(".modal-container").style.display = "flex";
 loadFrontPage();
 
 function favoritePage() {
