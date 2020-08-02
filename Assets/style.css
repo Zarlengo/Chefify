@@ -514,6 +514,12 @@ body {
     text-align: center;
 }
 
+.table-desc {
+    max-width: 100px;
+    word-wrap: normal;
+    white-space: normal;
+}
+
 /* Menu items still in work */
 .disabled {
     cursor: not-allowed;
@@ -616,5 +622,9 @@ hr {
     .btn-unit {
         width: 85px;
         font-size: inherit;
+    }
+
+    .table-desc {
+        max-width: 200px;
     }
 }
