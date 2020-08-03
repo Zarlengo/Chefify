@@ -38,7 +38,7 @@
 
 
 // https://spoonacular.com/food-api
-const API_Key_spoon = "93ae38646a124ea8980a90cd8acfccbc";
+const API_Key_spoon = "e93e25e572504047b2cf45756859799a";
 const API_authorization_spoon = `apiKey=${API_Key_spoon}`;
 
 function URLConstruct(base_URL, authorization, additions_object) {
@@ -125,10 +125,20 @@ function GetRecipes(ReferenceFunction, parameters = {}) {
     .then(request => {
         ReferenceFunction(request.results);
     })
+}
 
+function GetRecipesComplex(ReferenceFunction, parameters = {}) {
+    const spoon_URL = "https://api.spoonacular.com/recipes/complexSearch";
     
-
-
+    let queryURL = URLConstruct(spoon_URL, API_authorization_spoon, parameters);
+    console.log(queryURL);
+    fetch(queryURL)
+    .then(response => {
+        return response.json();
+    })
+    .then(request => {
+        ReferenceFunction(request.results);
+    })
 
 }
 

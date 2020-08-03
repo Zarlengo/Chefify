@@ -21,12 +21,14 @@
 
 #settings-modal {
     display: none;
+    /* display: flex; */
     flex-wrap: wrap;
     position: absolute;
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
+    top: 50px;
     min-width: 400px;
     max-width: 988px;
     overflow: auto; 
@@ -123,7 +125,7 @@
     background-color: lightgray;
     align-items: center;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 .sec-search-ingredients {
@@ -152,8 +154,66 @@
     cursor: pointer;
 }
 
+.added-ingredients {
+
+}
+
 .submit-ingredient-search {
     cursor: pointer;
+}
+
+.search-parameters {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    padding-left: 10px;
+    background-color: lightgray;
+}
+
+.refine,
+.refine-main-search {
+    margin-left: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.search-filter-dropdown {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+}
+
+.sf-dropdown-button {
+    padding: 5px;
+}
+
+.sf-dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 3;
+}
+
+.sf-filter {
+    list-style-type: none;
+    display: block;
+    cursor: pointer;
+}
+
+.remove-ai,
+.remove-ei {
+    color: red;
+    cursor: pointer;
+    padding: 3px;
+}
+
+.aIngredients {
+    /* color: green; */
+}
+
+.search-filter-dropdown:hover .sf-dropdown-content {
+    display: block;
+
 }
 
 .search-content {
@@ -191,9 +251,9 @@
     padding: 0 5px 0 5px;
 }
 
-.browse-categories-dropdown {
+.bc-dropdown {
     /* display: flex; */
-    display: flex;
+    /* display: flex;
     background-color: white;
     flex-direction: row;
     align-items: center;
@@ -201,22 +261,41 @@
     line-height: 30px;
     cursor: pointer;
     margin-right: 10px;
-    padding: 0 5px 0 5px;    
+    padding: 0 5px 0 5px;     */
+    position: relative;
+    display: inline-block;
+    /* width: 400px; */
 }
 
-.browse-categories-content {
+.bc-dropdown-content {
     display: none;
     position: absolute;
-    line-height: inherit;
-    text-align: center;
+    z-index: 1;
+    width: 400px;
+    /* line-height: inherit;
+    text-align: center; */
+}
+
+.diet:hover,
+.meal-types:hover,
+.cuisine:hover,
+.season:hover {
+    background-color: white;
+    color: var(--accent-font-color);
 }
 
 
-.browse-categories-dropdown:hover .browse-categories-content {
-    display: inline-flex;
+.bc-dropdown:hover .bc-dropdown-content {
+    display: block;
 }
 
-
+.browse-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; 
+    width: 400px;
+}
 
 
 .categories-card {
@@ -224,7 +303,8 @@
     background-color: var(--accent-color-primary);
     color: var(--accent-font-color);
     border-radius: 5px;
-    margin: 10px;
+    /* margin: 10px; */
+    width: 170px;
     padding: 10px;
 }
 
@@ -232,8 +312,21 @@
 
 .category {
     list-style-type: none;
+    padding-top: 5px;
 }
 
+.diet,
+.meal-types,
+.cuisine,
+.season {
+    padding-bottom: 3px;
+    cursor: pointer;
+}
+
+.cat-card-title {
+    border-bottom: black solid 1px;
+    margin-bottom: 1px;
+}
 /* Styles for recipe cards */
 .card {
     border: 1px #808080 solid;
