@@ -21,12 +21,14 @@
 
 #settings-modal {
     display: none;
+    /* display: flex; */
     flex-wrap: wrap;
     position: absolute;
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
+    top: 50px;
     min-width: 400px;
     max-width: 988px;
     overflow: auto; 
@@ -105,18 +107,261 @@
 }
 
 .intolerances,
-.restrictions,
-.units {
+.restrictions {
     padding: 5px;
 }
 
 .restriction,
-.intolerance,
-.unit {
+.intolerance {
     padding: 3px;
     padding-left: 0px;
 }
 
+.search {
+    display: flex;
+    height: 50px;
+    background-color: lightgray;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#sec-search-keyword,
+#sec-search-add-ingredient,
+#sec-search-exclude-ingredient {
+    height: 25px;
+    text-decoration: none;
+    /* line-height: 30px; */
+}
+.add-ingredient-button,
+.exclude-ingredient-button {
+    height: 29px;
+    width: 29px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#exit-ingredient-search {
+    background-color: red;
+    color: white;
+    height: 25px;
+    width: 25px;
+}
+
+.submit-ingredient-search {
+    height: 30px;
+    padding: 5px;
+    background-color: green;
+    text-emphasis: bold;
+}
+
+.sec-search-ingredients {
+    display: none;
+    flex-wrap: wrap;
+    /* height: 50px; */
+    height: auto;
+    background-color: lightgray;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.sec-search {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 50px;
+}
+
+#exit-ingredient-search {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    cursor: pointer;
+}
+
+.submit-ingredient-search {
+    cursor: pointer;
+}
+
+.search-parameters {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    padding-left: 10px;
+    background-color: lightgray;
+}
+
+.refine,
+.refine-main-search {
+    margin-left: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.search-filter-dropdown {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+}
+
+.sf-dropdown-button {
+    padding: 5px;
+}
+
+.sf-dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 3;
+}
+
+.sf-filter {
+    list-style-type: none;
+    display: block;
+    cursor: pointer;
+    background-color: white;
+    border: 1px black solid;
+    padding: 3px;
+}
+
+.sf-filter:hover {
+    background-color: lightgray;
+
+}
+
+.remove-ai,
+.remove-ei {
+    color: red;
+    cursor: pointer;
+    padding: 3px;
+}
+
+.aIngredients {
+    /* color: green; */
+}
+
+.search-filter-dropdown:hover .sf-dropdown-content {
+    display: block;
+}
+
+.search-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.search-recipes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 225px;
+    
+}
+
+.search-recipe-button {
+    margin-left: -10%;
+    cursor: pointer;
+    height: 30px;
+    background-color: white;
+    border: none;
+}
+
+#search-recipe {
+    width: 225px;
+    height: 30px;
+    padding-left: 5px;;
+}
+
+.search-ingredient {
+    cursor: pointer;
+    height: 34px;
+    /* margin-left: 10px; */
+    padding: 0 5px 0 5px;
+}
+
+.bc-dropdown {
+    /* display: flex; */
+    /* display: flex;
+    background-color: white;
+    flex-direction: row;
+    align-items: center;
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    margin-right: 10px;
+    padding: 0 5px 0 5px;     */
+    position: relative;
+    display: inline-block;
+    /* width: 400px; */
+}
+
+.bc-dropBtn {
+    padding: 0 5px 0 5px;
+    height: 34px;
+}
+.bc-dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    width: 400px;
+    /* line-height: inherit;
+    text-align: center; */
+}
+
+.diet:hover,
+.meal-types:hover,
+.cuisine:hover,
+.other:hover {
+    background-color: white;
+    color: var(--accent-font-color);
+    cursor: pointer;
+}
+
+
+.bc-dropdown:hover .bc-dropdown-content {
+    display: block;
+}
+
+.browse-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; 
+    width: 400px;
+}
+
+
+.categories-card {
+    border: 1px #808080 solid;
+    background-color: var(--accent-color-primary);
+    color: var(--accent-font-color);
+    border-radius: 5px;
+    /* margin: 10px; */
+    width: 170px;
+    padding: 10px;
+}
+
+
+
+.category {
+    list-style-type: none;
+    padding-top: 5px;
+}
+
+.diet,
+.meal-types,
+.cuisine,
+.other {
+    padding-bottom: 3px;
+    cursor: pointer;
+}
+
+.cat-card-title {
+    border-bottom: black solid 1px;
+    margin-bottom: 1px;
+}
 /* Styles for recipe cards */
 .card {
     border: 1px #808080 solid;
@@ -143,7 +388,7 @@
 }
 
 .card_title {
-    padding: 10px 30px;
+    padding: 10px 10px 10px 30px;
     margin: 0;
 }
 
@@ -315,6 +560,7 @@ body {
     margin-top: 60px;
     margin-bottom: 30px;
     display: flex;
+    /* display: none; */
     flex-direction: row;
     flex-wrap: wrap;
     align-content: center;
