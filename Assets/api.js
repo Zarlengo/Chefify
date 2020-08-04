@@ -38,7 +38,7 @@
 
 
 // https://spoonacular.com/food-api
-const API_Key_spoon = "8a8f2cdacacc48e0a7aa67e7e9e2dfca";
+const API_Key_spoon = "3ddf39ad67fc4eb78917c9ff0fc4ba7f";
 const API_authorization_spoon = `apiKey=${API_Key_spoon}`;
 
 function URLConstruct(base_URL, authorization, additions_object) {
