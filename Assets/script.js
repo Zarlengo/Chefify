@@ -1122,7 +1122,6 @@ function setUserSettings() {
     
     let dietary_intolerances = document.getElementsByClassName("intolerance");
     let dietary_restrictions = document.getElementsByClassName('restriction');
-    console.log(dietary_intolerances);
     if (user_intolerances != null ||  user_intolerances != undefined) {
         for (i = 0; i < dietary_intolerances.length; i++) {
             dietary_intolerances[i].childNodes[1].checked = user_intolerances[i];
@@ -1156,8 +1155,6 @@ function getUserSettings() {
         }
         user_i_string = user_intolerances_names.join(",");
         user_r_string = user_restrictions_names.join(",");
-        console.log(user_i_string);
-        console.log(user_r_string);
     }
     return user_i_string, user_r_string;
 }
@@ -1166,10 +1163,8 @@ function filterResults(type) {
     let filter_recipes = document.querySelectorAll(".card");
     switch(type) {
         case "price":
-            console.log("price")
             break;
         case "rating":
-            console.log("rating");
             for (i = 0; i < filter_recipes.length; i++) {
                 let rId = filter_recipes[i].dataset.id;
                 let rating = filter_recipes[i].children[2].title; 
@@ -1196,7 +1191,6 @@ function filterResults(type) {
             GetRecipeByIDs(makeRecipeCard, {ids: newids});
             break;
         case "time":
-            console.log("time");
             break;
     }
 }
@@ -1250,7 +1244,6 @@ function addedIngredients(add) {
 }
 
 function excludedIngredients(exclude) {
-    console.log(exclude);
     let excluded_ingredients = document.querySelector(".excluded-ingredients");
     excluded_ingredients.textContent = '';
     excluded_Ingredients.push(exclude);
@@ -1319,7 +1312,6 @@ function displaySearchParameters() {
         search_parameters.removeChild(sp_button);
     }
     let add_ingredients = added_Ingredients.join(",");
-    console.log(add_ingredients);
     var p = document.createElement("p");
     var b = document.createElement("button");
     p.setAttribute('class', 'search-results');
@@ -1340,14 +1332,12 @@ function displaySearchParameters() {
 function recipesIDs(ids) {
     // recipe_by_ingredients = JSON.parse(localStorage.getItem("recipe_list"));
     ids_array = [];
-    console.log(ids);
     for (i = 0; i < ids.length; i++) {
         ids_array.push(ids[i].id);
     }
 
     let ids_string = ids_array.join(",");
     ids_string = ids_string.toString();
-    console.log(ids_string);
     // console.log(ids_array);
     localStorage.removeItem("recipe_list");
     let recipe_container = document.querySelector("#recipe_container");
@@ -1360,14 +1350,12 @@ function recipesIDs(ids) {
 function complexRecipeIDs(ids) {
     // recipe_by_ingredients = JSON.parse(localStorage.getItem("recipe_list"));
     ids_array = [];
-    console.log(ids);
     for (i = 0; i < ids.length; i++) {
         ids_array.push(ids[i].id);
     }
 
     let ids_string = ids_array.join(",");
     ids_string = ids_string.toString();
-    console.log(ids_string);
     localStorage.removeItem("recipe_list");
     let recipe_container = document.querySelector("#recipe_container");
     recipe_container.textContent = '';
@@ -1378,15 +1366,12 @@ function complexRecipeIDs(ids) {
 
 function browseRecipeIDs(ids) {
     ids_array = [];
-    console.log(ids);
     for (i = 0; i < ids.length; i++) {
         ids_array.push(ids[i].id);
     }
 
     let ids_string = ids_array.join(",");
     ids_string = ids_string.toString();
-    console.log(ids_string);
-    // console.log(ids_array);
     localStorage.removeItem("recipe_list");
     let recipe_container = document.querySelector("#recipe_container");
     recipe_container.textContent = '';
@@ -1460,9 +1445,6 @@ document.querySelector(".submit-ingredient-search").addEventListener("click", fu
         // do nothing
     }
     let var1, var2 = getUserSettings();
-    console.log(var1);
-    console.log(var2);
-    console.log(param);
     
     // for (i = 0; i < param.length; i++) {
     //     jparam = jparam + param[i].includeIngredients; 
@@ -1483,7 +1465,6 @@ document.querySelector(".sf-dropdown-content").addEventListener("click", functio
 
 document.querySelector(".search-recipe-button").addEventListener("click", function () {
     var keyword = document.querySelector("#search-recipe").value;
-    console.log(keyword);
     if ((keyword == null || keyword == undefined || keyword == "")) {
         // do nothing
     } else {
@@ -1495,10 +1476,8 @@ document.querySelector(".search-recipe-button").addEventListener("click", functi
 });
 
 document.querySelector(".settings-save-button").addEventListener("click", function(data) {
-    console.log(data);
     let dietary_intolerances = document.getElementsByClassName("intolerance");
     let dietary_restrictions = document.getElementsByClassName('restriction');
-    console.log(dietary_intolerances);
     for (i = 0; i < dietary_intolerances.length; i++) {
         let dietary_intolerance = dietary_intolerances[i].childNodes[1].checked;
         intolerances_array.push(dietary_intolerance);
@@ -1522,9 +1501,7 @@ document.querySelector("#meal-type").addEventListener("click", function(data) {
 });
 
 document.querySelector("#diets").addEventListener("click", function(data) {
-    console.log(data);
     let diet = data.target.innerHTML;
-    console.log(diet);
     GetRecipesComplex(browseRecipeIDs, {diet: diet, number:50});
 });
 
@@ -1535,7 +1512,6 @@ document.querySelector("#cuisines").addEventListener("click", function(data) {
 
 document.querySelector("#others").addEventListener("click", function(data) {
     let other = data.target.id;
-    console.log(other);
     var type;
     switch(other) {
         case 'time':
@@ -1566,7 +1542,6 @@ document.querySelector("#others").addEventListener("click", function(data) {
             type = "minFiber:"+50;
             break;
     }
-    console.log(type);
     GetRecipesComplex(complexRecipeIDs, {type, number:50});
 });
 

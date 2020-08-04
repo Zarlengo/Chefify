@@ -118,12 +118,16 @@
 }
 
 .search {
+    position: fixed;
+    width: 100%;
     display: flex;
+    top: 50px;
     height: 50px;
     background-color: lightgray;
     align-items: center;
     flex-direction: row;
     justify-content: space-evenly;
+    z-index: 0;
 }
 
 #sec-search-keyword,
@@ -156,6 +160,9 @@
 }
 
 .sec-search-ingredients {
+    width: 100%;
+    position: fixed;
+    top: 50px;
     display: none;
     flex-wrap: wrap;
     /* height: 50px; */
@@ -177,12 +184,13 @@
 #exit-ingredient-search {
     position: absolute;
     right: 0;
-    top: 50px;
+    top: 0;
     cursor: pointer;
 }
 
 .submit-ingredient-search {
     cursor: pointer;
+    color: white;
 }
 
 .search-parameters {
@@ -557,7 +565,7 @@ body {
 }
 
 #recipe_container {
-    margin-top: 60px;
+    margin-top: 110px;
     margin-bottom: 30px;
     display: flex;
     /* display: none; */
@@ -644,11 +652,16 @@ body {
     right: 0;
 }
 .dropdown-content li {
+    z-index: 1001;
     float: none;
     padding: 12px 16px;
     display: block;
     text-align: left;
     white-space: nowrap;
+}
+
+ol {
+    z-index: 1001;
 }
 
 .dropdown:hover .dropdown-content {
@@ -662,6 +675,7 @@ body {
     padding: 14px 16px;
     text-decoration: none;
     color: inherit;
+    z-index: 1001;
 }
 
 .dropdown-content a:hover {
