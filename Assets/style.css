@@ -194,12 +194,11 @@
 }
 
 .search-parameters {
-    display: none;
     flex-direction: row;
     align-items: center;
-    height: 50px;
+    justify-content: center;
+    height: 100%;
     padding-left: 10px;
-    background-color: lightgray;
 }
 
 .refine,
@@ -211,8 +210,6 @@
 
 .search-filter-dropdown {
     display: inline-block;
-    position: absolute;
-    right: 10px;
 }
 
 .sf-dropdown-button {
@@ -230,6 +227,7 @@
     display: block;
     cursor: pointer;
     background-color: white;
+    color: black;
     border: 1px black solid;
     padding: 3px;
 }
