@@ -172,7 +172,7 @@
 
     <div class="search">
         <div class="bc-dropdown">
-        <button class="bc-dropBtn"><span>Browse <i class="fa fa-angle-right"></span></i></button>
+        <button class="bc-dropBtn"><span>Browse Categories <i class="fa fa-angle-right"></span></i></button>
         <div class="bc-dropdown-content">
             <div class="browse-body">
                 <div class="categories-card">
@@ -191,11 +191,11 @@
                 <div class="categories-card">
                     <h3 class="cat-card-title">Diets</h3>
                     <div class="category" id="diets">
-                        <li class="diet" id="gluten-free-diet"><span>Gluten-Free</span></li>
+                        <li class="diet" id="gluten-free-diet">Gluten Free</li>
                         <li class="diet" id="ketogenic-diet">Ketogenic</li>
                         <li class="diet" id="vegetarian-diet">Vegetarian</li>
-                        <li class="diet" id="lacto-vegetarian-diet">Lacto Vegetarian</li>
-                        <li class="diet" id="ovo-vegetarian-diet">Ovo Vegetarian</li>
+                        <li class="diet" id="lacto-vegetarian-diet">Lacto-Vegetarian</li>
+                        <li class="diet" id="ovo-vegetarian-diet">Ovo-Vegetarian</li>
                         <li class="diet" id="vegan-diet">Vegan</li>                            
                         <li class="diet" id="pescetarian-diet">Pescetarian</li>
                         <li class="diet" id="paleo-diet">Paleo</li>
@@ -236,12 +236,18 @@
                     </div>
                 </div>
                 <div class="categories-card">
-                    <h3 class="cat-card-title" >Seasons</h3>
-                    <div class="category" id="seasons">
-                        <div class="season" id="fall">Fall</div>
-                        <div class="season" id="winter">Winter</div>
-                        <div class="season" id="spring">Spring</div>
-                        <div class="season" id="summer">Summer</div>
+                    <h3 class="cat-card-title">Others</h3>
+                    <div class="category" id="others">
+                        <div class="other" id="time">Under 30 Minutes</div>
+                        <div class="other" id="carbs">Low Carbs</div>
+                        <div class="other" id="fat">Low Fat</div>
+                        <div class="other" id="calorie">Low Calorie</div>
+                        <div class="other" id="cholesterol">Low Cholesterol</div>
+                        <div class="other" id="sugar">Low Sugar</div>
+                        <div class="other" id="protein">High Protein</div>                        
+                        <div class="other" id="calcium">High Calcium</div>                        
+                        <div class="other" id="fiber">High Fiber</div>                        
+
                     </div>
                 </div>
             </div>
@@ -258,7 +264,7 @@
 
     <div class="sec-search-ingredients">
         <div class="sec-search">
-            <button type="submit" id="exit-ingredient-search">X</button>
+            <button type="submit" id="exit-ingredient-search"><i class="fa fa-times"></i></button>
         </div>
         <div class="sec-search" id="sec-search-keywords">
             <input type="text" id="sec-search-keyword" name="sec-search-keyword" placeholder="Keywords">
@@ -270,7 +276,7 @@
         </div>
         <div class="sec-search" id="sec-search-exclude-ingredients">
             <input type="text" id="sec-search-exclude-ingredient" name="sec-search-exclude-ingredient" placeholder="Exlude Ingredient">
-            <button type="submit" class="exclude-ingredient-button"><i class="fa fa-minus"></i></button>
+            <button type="submit" class="exclude-ingredient-button"><i class="fa fa-plus"></i></button>
             <div class="excluded-ingredients"></div>
         </div>
         <button type="submit" class="submit-ingredient-search">GO</button>
@@ -279,11 +285,11 @@
     <!-- Displays what the user inputted for their search parameters -->
     <div class="search-parameters">
         <div class="search-filter-dropdown">
-        <button class="sf-dropdown-button">Filter</button>
+        <button class="sf-dropdown-button">Sort</button>
         <div class="sf-dropdown-content">
-            <li class="sf-filter" id="price">Price</li>
+            <!-- <li class="sf-filter" id="price">Price</li> -->
             <li class="sf-filter" id="rating">Rating</li>
-            <li class="sf-filter" id="time">Time</li>
+            <!-- <li class="sf-filter" id="time">Time</li> -->
         </div>
         </div>
     </div>

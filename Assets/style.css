@@ -107,14 +107,12 @@
 }
 
 .intolerances,
-.restrictions,
-.units {
+.restrictions {
     padding: 5px;
 }
 
 .restriction,
-.intolerance,
-.unit {
+.intolerance {
     padding: 3px;
     padding-left: 0px;
 }
@@ -126,6 +124,35 @@
     align-items: center;
     flex-direction: row;
     justify-content: space-evenly;
+}
+
+#sec-search-keyword,
+#sec-search-add-ingredient,
+#sec-search-exclude-ingredient {
+    height: 25px;
+    text-decoration: none;
+    /* line-height: 30px; */
+}
+.add-ingredient-button,
+.exclude-ingredient-button {
+    height: 29px;
+    width: 29px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#exit-ingredient-search {
+    background-color: red;
+    color: white;
+    height: 25px;
+    width: 25px;
+}
+
+.submit-ingredient-search {
+    height: 30px;
+    padding: 5px;
+    background-color: green;
+    text-emphasis: bold;
 }
 
 .sec-search-ingredients {
@@ -152,10 +179,6 @@
     right: 0;
     top: 50px;
     cursor: pointer;
-}
-
-.added-ingredients {
-
 }
 
 .submit-ingredient-search {
@@ -198,6 +221,14 @@
     list-style-type: none;
     display: block;
     cursor: pointer;
+    background-color: white;
+    border: 1px black solid;
+    padding: 3px;
+}
+
+.sf-filter:hover {
+    background-color: lightgray;
+
 }
 
 .remove-ai,
@@ -213,7 +244,6 @@
 
 .search-filter-dropdown:hover .sf-dropdown-content {
     display: block;
-
 }
 
 .search-content {
@@ -246,8 +276,8 @@
 
 .search-ingredient {
     cursor: pointer;
-    height: 30px;
-    margin-left: 10px;
+    height: 34px;
+    /* margin-left: 10px; */
     padding: 0 5px 0 5px;
 }
 
@@ -267,6 +297,10 @@
     /* width: 400px; */
 }
 
+.bc-dropBtn {
+    padding: 0 5px 0 5px;
+    height: 34px;
+}
 .bc-dropdown-content {
     display: none;
     position: absolute;
@@ -279,9 +313,10 @@
 .diet:hover,
 .meal-types:hover,
 .cuisine:hover,
-.season:hover {
+.other:hover {
     background-color: white;
     color: var(--accent-font-color);
+    cursor: pointer;
 }
 
 
@@ -318,7 +353,7 @@
 .diet,
 .meal-types,
 .cuisine,
-.season {
+.other {
     padding-bottom: 3px;
     cursor: pointer;
 }
