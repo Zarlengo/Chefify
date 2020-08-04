@@ -508,6 +508,19 @@ function loadContact() {
     email_input.setAttribute("value", "email@email.com");
     contact_form.append(email_input);    
 
+    // Creates php code number
+    php_code_array = [];
+    for (let i = 0; i < 20; i++) {
+        php_code_array.push(Math.floor(Math.random() * 10));
+    }
+    let php_code = document.createElement("input");
+    php_code.setAttribute("style", "display: none;");php_code_array
+    php_code.setAttribute("type", "text");
+    php_code.setAttribute("id", "php_code");
+    php_code.setAttribute("name", "php_code");
+    php_code.setAttribute("value", php_code_array.join(""));
+    contact_form.append(php_code);  
+
     // Creates the emal content input
     let message_label = document.createElement("label");
     message_label.setAttribute("class", "form-titles");
@@ -563,19 +576,28 @@ function loadFrontPage() {
 
 
     // Test mode setup to minimize API calls while in development, loads once and then pulls from local storage on subsequent refreshes
-    // let current_storage = JSON.parse(localStorage.getItem("recipe_list"));
-    // if (current_storage == null) {
+    if (typeof(localStorage.getItem("recipe_list") == "undefined") || JSON.parse(localStorage.getItem("recipe_list"))) {
         JSON_in_progress = true;
         GetRandomRecipes(makeRecipeCard, {number: 100});
-    // } else {
-    //     let recipe_list = JSON.parse(localStorage.getItem("recipe_list"));
-    //     makeRecipeCard(recipe_list);
-    // }
+    } else {
+        let recipe_list = JSON.parse(localStorage.getItem("recipe_list"));
+        makeRecipeCard(recipe_list);
+    }
 
 }
-
-// Shows an overlay to the user that the recipes are loading
-document.querySelector("#modal-message").textContent = "Loading recipes";
+const queryString = window.location.search;
+if (queryString == "?success") {
+    // Shows an overlay to the user that the contact message was a success or failure
+    document.querySelector("#modal-message").textContent = "Message was successfully sent";
+    setTimeout(function() {document.querySelector(".modal-container").style.display = "none";}, 3000);
+} else if (queryString == "?failure") {
+    // Shows an overlay to the user that the contact message was a success or failure
+    document.querySelector("#modal-message").textContent = "There was a problem with the message.";
+    setTimeout(function() {document.querySelector(".modal-container").style.display = "none";}, 3000);
+} else {
+    // Shows an overlay to the user that the recipes are loading
+    document.querySelector("#modal-message").textContent = "Loading recipes";
+}
 document.querySelector(".modal-container").style.display = "flex";
 loadFrontPage();
 
