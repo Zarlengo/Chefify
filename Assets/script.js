@@ -1108,11 +1108,6 @@ function addToStorage (array_of_objects) {
         uploadOBJ = array_of_objects;
     }
 
-    // Delete items in array over 450, local storage limit
-    let recipe_limit = 450;
-    if (uploadOBJ.length > recipe_limit) {
-        uploadOBJ.splice(0, uploadOBJ.length - recipe_limit);        
-    }
     all_recipe_object = uploadOBJ;
 
     // Converts the object to a string and uploads to local storage
