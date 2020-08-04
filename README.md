@@ -1,4 +1,4 @@
-# [Chefify - https://zarlengo.github.io/Project_1/](https://zarlengo.github.io/Project_1/)
+# [Chefify - https://chefify.zarlengo.net/](https://chefify.zarlengo.net/)
 
 Project Description: A mobile first website to search for meal ideas for a user
 
@@ -54,7 +54,7 @@ Project Description: A mobile first website to search for meal ideas for a user
 
 ## Shopping
 ### Shopping List
-![Shopping List](./support/shopping_list.jpg)
+![Shopping List](./support/Shopping_list.jpg)
 * Ingredient list sorted by grocery aisle to allow ease while shopping.
 * Units are in the format entered from the recipe
 * Duplicate items are added together when adding additional quantities (different units will not combine together).
