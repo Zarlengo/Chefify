@@ -563,14 +563,14 @@ function loadFrontPage() {
 
 
     // Test mode setup to minimize API calls while in development, loads once and then pulls from local storage on subsequent refreshes
-    let current_storage = JSON.parse(localStorage.getItem("recipe_list"));
-    if (current_storage == null) {
+    // let current_storage = JSON.parse(localStorage.getItem("recipe_list"));
+    // if (current_storage == null) {
         JSON_in_progress = true;
         GetRandomRecipes(makeRecipeCard, {number: 100});
-    } else {
-        let recipe_list = JSON.parse(localStorage.getItem("recipe_list"));
-        makeRecipeCard(recipe_list);
-    }
+    // } else {
+    //     let recipe_list = JSON.parse(localStorage.getItem("recipe_list"));
+    //     makeRecipeCard(recipe_list);
+    // }
 
 }
 
