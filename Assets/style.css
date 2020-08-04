@@ -122,11 +122,12 @@
     width: 100%;
     display: flex;
     top: 50px;
-    height: 50px;
+    height: 100px;
     background-color: lightgray;
     align-items: center;
-    flex-direction: row;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: none;
     z-index: 0;
 }
 
@@ -871,6 +872,11 @@ hr {
     }
 
 
+    .search {
+        height: 50px;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
     .btn-shop {
         margin-right: 30px;
         width: 170px;
