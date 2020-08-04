@@ -54,6 +54,13 @@ function makeRecipeCard(array_of_recipe_objects) {
     document.querySelector(".modal-container").style.display = "none";
     JSON_in_progress = false;
     
+    if (typeof(array_of_recipe_objects) == "undefined") {
+        // Shows an overlay to the user that there is nothing in the shopping list, automatically disappears after 1.5 seconds
+        document.querySelector("#modal-message").textContent = "Sorry there was an error loading recipes, please try again.";
+        document.querySelector(".modal-container").style.display = "flex";
+        setTimeout(function() {document.querySelector(".modal-container").style.display = "none";}, 1500);
+        return;
+    }
     // Stores any new recipes to local storage (speed up loading old recipes)
     addToStorage(array_of_recipe_objects);
 
