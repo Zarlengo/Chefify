@@ -149,29 +149,6 @@
     </div>
 
     <header>
-    <nav class="navbar">
-      <div class="nav-left-content navbar-brand"><i class="fas fa-chevron-circle-left back-btn">&nbsp;&nbsp;</i>Chefify</div>
-      <div class="nav-right-content">
-        <div class="nav-search">
-            <input id="searchText" name="searchText" type="text" placeholder="Quick search" class="recipe-search">
-            <i class="fas fa-search search-icon"></i>
-        </div>
-        <i id="favorites-icon" class="fas fa-heart nav-favorite"></i>
-        <div class="dropdown"><i class="fas fa-bars"></i>
-          <div class="dropdown-content">
-            <ol>
-                <li class="dropdown-item disabled">Recipe Search</li>
-                <li id="shopping-btn" class="dropdown-item">Shopping List</li>
-                <li id="favorites-btn" class="dropdown-item">Favorites</li>
-                <!-- <li class="dropdown-item" href="#">Meal History</li> -->
-                <li id="user_settings" class="dropdown-item disabled">Settings</li>
-                <li id="contact-btn" class="dropdown-item">Contact</li>
-            </ol>
-          </div>
-        </div>
-    </nav>
-    </header>
-
     <div class="search">
         <div class="bc-dropdown">
         <button class="bc-dropBtn"><span>Browse Categories <i class="fa fa-angle-right"></span></i></button>
@@ -262,6 +239,25 @@
             <button type="submit" class="search-ingredient">Search By Ingredient</button>
         </div>
     </div>
+    <nav class="navbar">
+      <div class="nav-left-content navbar-brand"><i class="fas fa-chevron-circle-left back-btn">&nbsp;&nbsp;</i>Chefify</div>
+      <div class="nav-right-content">
+        <!-- <div class="nav-search">
+            <input id="searchText" name="searchText" type="text" placeholder="Quick search" class="recipe-search">
+            <i class="fas fa-search search-icon"></i>
+        </div> -->
+        <i id="favorites-icon" class="fas fa-heart nav-favorite"></i>
+        <div class="dropdown"><i class="fas fa-bars"></i>
+          <div class="dropdown-content">
+            <ol>
+                <li id="shopping-btn" class="dropdown-item">Shopping List</li>
+                <li id="favorites-btn" class="dropdown-item">Favorites</li>
+                <li id="user_settings" class="dropdown-item">Settings</li>
+                <li id="contact-btn" class="dropdown-item">Contact</li>
+            </ol>
+          </div>
+        </div>
+    </nav>
 
     <div class="sec-search-ingredients">
         <div class="sec-search">
@@ -282,7 +278,6 @@
         </div>
         <button type="submit" class="submit-ingredient-search">GO</button>
     </div>
-
     <!-- Displays what the user inputted for their search parameters -->
     <div class="search-parameters">
         <div class="search-filter-dropdown">
@@ -294,6 +289,9 @@
         </div>
         </div>
     </div>
+
+    </header>
+
 
     <!-- <div class="category" id="exclude-ingredients">
         <li class="exclude-ingredient" id="exlude-dairy">Dairy</li>
