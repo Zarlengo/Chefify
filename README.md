@@ -1,4 +1,4 @@
-# [Chefify - https://zarlengo.github.io/Project_1/](https://zarlengo.github.io/Project_1/)
+# [Chefify - https://zarlengo.github.io/Chefify/](https://zarlengo.github.io/Chefify/)
 
 Project Description: A mobile first website to search for meal ideas for a user
 
